@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.fixit.core.synchronization;
+package com.fixit.core.data;
 
 import java.util.Date;
 

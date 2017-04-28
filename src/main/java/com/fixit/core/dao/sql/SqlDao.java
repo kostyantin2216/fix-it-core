@@ -15,5 +15,5 @@ import com.fixit.core.data.sql.SqlModelObject;
  */
 public interface SqlDao<E extends SqlModelObject<ID>, ID extends Serializable> 
 		extends CommonDao<E, ID> {
-	Integer getCount(Map<String, Object> properties);
+	Long getCount(Map<String, Object> properties);
 }

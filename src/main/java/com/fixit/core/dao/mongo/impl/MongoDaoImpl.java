@@ -51,7 +51,6 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 
 	@Override
 	public E findById(ObjectId id) {
-		FILog.i("finding object with id: " + id);
 		MongoCursor<Document> cursor = mCollection.find(new Document("_id", id)).iterator();
 		if(cursor != null) {
 			if(cursor.hasNext()) {

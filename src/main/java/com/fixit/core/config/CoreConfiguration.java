@@ -1,30 +1,46 @@
-/**
- * 
- */
 package com.fixit.core.config;
 
+import java.util.Properties;
+
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 import com.fixit.core.dao.sql.StoredPropertyDao;
+import com.fixit.core.general.PropertyGroup;
+import com.fixit.core.general.PropertyGroup.Group;
+import com.fixit.core.general.StoredProperties;
+import com.fixit.core.logging.FILog;
 
-/**
- * @author 		Kostyantin
- * @createdAt 	2017/04/09 17:41:32 GMT+3
- */
-@Component
+@Configuration
+@ComponentScan(basePackages = {"com.fixit.core"})
 public class CoreConfiguration {
 	
-	private final StoredPropertyDao mStoredPropertyDao;
-	
+	@Bean
 	@Autowired
-	public CoreConfiguration(StoredPropertyDao storedPropertyDao) {
-		mStoredPropertyDao = storedPropertyDao;
-	}
-	/*
-	public Integer getInt(String key) {
-		StoredProperty storedProperty
-		return mStoredPropertyDao.findById(id)
-	}*/
+	public Session mailSession(StoredPropertyDao dao) {
+		FILog.i("creating mail session");
+		PropertyGroup propertyGroup = dao.getPropertyGroup(Group.mail);
+		
+		final String username = propertyGroup.getString(StoredProperties.MAIL_USERNAME, null);
+		final String password = propertyGroup.getString(StoredProperties.MAIL_PASSWORD, null);
 
+		Properties props = propertyGroup.extractProperties(
+				StoredProperties.MAIL_SMTP_AUTH,
+				StoredProperties.MAIL_SMTP_ENABLE_TLS,
+				StoredProperties.MAIL_SMTP_HOST,
+				StoredProperties.MAIL_SMTP_PORT
+		);
+		
+		return Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(username, password);
+			}
+		});
+	}
+	
 }

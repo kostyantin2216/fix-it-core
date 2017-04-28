@@ -1,5 +1,7 @@
 package com.fixit.core.config;
 
+import javax.mail.Session;
+
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -10,8 +12,7 @@ import com.fixit.core.dao.mongo.SynchronizationParamsDao;
 import com.fixit.core.dao.mongo.impl.MapAreaDaoImpl;
 import com.fixit.core.dao.mongo.impl.SynchronizationParamsDaoImpl;
 import com.fixit.core.dao.sql.ReviewDao;
-import com.fixit.core.dao.sql.impl.ReviewDaoImpl;
-import com.fixit.core.search.SearchExecutor;
+import com.fixit.core.dao.sql.ServerLogDao;
 
 @Component
 public class CoreContextProvider implements ApplicationContextAware {
@@ -35,6 +36,11 @@ public class CoreContextProvider implements ApplicationContextAware {
 		context = applicationContext;
 	}
 	
+	// Beans
+	public static Session getMailSession() {
+		return (Session) context.getBean("mailSession");
+	}
+	
 	// Data Access Objects
 	public static SynchronizationParamsDao getSynchronizationParamsDao() {
 		return context.getBean(SynchronizationParamsDaoImpl.class);
@@ -45,7 +51,11 @@ public class CoreContextProvider implements ApplicationContextAware {
 	}
 	
 	public static ReviewDao getReviewDao() {
-		return context.getBean(ReviewDaoImpl.class);
+		return (ReviewDao) context.getBean("reviewDao");
+	}
+	
+	public static ServerLogDao getServerLogDao() {
+		return (ServerLogDao) context.getBean("serverLogDao");
 	}
 	
 	// Services
@@ -57,8 +67,6 @@ public class CoreContextProvider implements ApplicationContextAware {
 		return context.getBean(GsonManager.class);
 	}
 	
-	public static SearchExecutor getSearchExecutor() {
-		return context.getBean(SearchExecutor.class);
-	}
+	
 	
 }

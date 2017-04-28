@@ -3,6 +3,7 @@ package com.fixit.core.data.mongo;
 import org.bson.types.ObjectId;
 
 import com.fixit.core.data.Geometry;
+import com.fixit.core.data.MapAreaType;
 
 public class MapArea implements MongoModelObject {
 	
@@ -59,6 +60,10 @@ public class MapArea implements MongoModelObject {
 
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
+	}
+	
+	public MapAreaType getEnumType() {
+		return MapAreaType.valueOf(type);
 	}
 
 	@Override

@@ -17,9 +17,9 @@ import com.mongodb.client.FindIterable;
 public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 		implements TradesmanDao {
 
-	public final static String TABLE_NAME = "Job";
+	public final static String TABLE_NAME = "Tradesman";
 	
-	public final static String PROP_SHOPIFY_CUSTOMER_ID = "shopifyCustomerId";
+	public final static String PROP_LEAD_ID = "leadId";
 	public final static String PROP_PROFESSION_ID = "proffesionId";
 	public final static String PROP_NAME = "name";
 	public final static String PROP_EMAIL = "email";
@@ -45,7 +45,7 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	@Override
 	public List<Tradesman> getTradesmenForArea(int professionId, MapArea area) {
 		FindIterable<Document> result = mCollection.find(and(
-					all(PROP_WORKING_AREAS, Arrays.asList(area.get_id())),
+					in(PROP_WORKING_AREAS, Arrays.asList(area.get_id().toString())),
 					eq(PROP_PROFESSION_ID, professionId)
 				)
 		);

@@ -3,6 +3,8 @@
  */
 package com.fixit.core.dao.mongo;
 
+import java.util.List;
+
 import com.fixit.core.data.JobLocation;
 import com.fixit.core.data.MapAreaType;
 import com.fixit.core.data.mongo.MapArea;
@@ -14,4 +16,5 @@ import com.fixit.core.data.mongo.MapArea;
 public interface MapAreaDao extends MongoDao<MapArea> {
 	public MapArea getMapAreaAtLocationForType(double longitude, double latitude, MapAreaType type);
 	public MapArea getMapAreaForJob(JobLocation jobLocation);
+	public List<MapArea> getAreasIn(MapArea mapArea, MapAreaType type) throws IllegalArgumentException;
 }

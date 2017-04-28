@@ -19,7 +19,9 @@ import com.fixit.core.data.sql.DataType;
 import com.fixit.core.data.sql.Profession;
 import com.fixit.core.data.sql.RestClient;
 import com.fixit.core.data.sql.Review;
+import com.fixit.core.data.sql.ServerLog;
 import com.fixit.core.data.sql.StoredProperty;
+import com.fixit.core.data.sql.TradesmanLead;
 import com.fixit.core.data.sql.TradesmanStatistics;
 import com.fixit.core.data.sql.UserStatistics;
 import com.fixit.core.logging.FILog;
@@ -56,7 +58,9 @@ public class HibernateConfiguration {
 			Profession.class,
 			RestClient.class,
 			Review.class,
+			ServerLog.class,
 			StoredProperty.class,
+			TradesmanLead.class,
 			TradesmanStatistics.class,
 			UserStatistics.class
 		};

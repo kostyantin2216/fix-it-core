@@ -11,7 +11,7 @@ import com.fixit.core.data.WorkingDay;
 public class Tradesman implements MongoModelObject {
 
 	private ObjectId _id;
-	private long shopifyCustomerId;
+	private long leadId;
 	private int proffesionId;
 	private String contactName;
 	private String companyName;
@@ -35,12 +35,12 @@ public class Tradesman implements MongoModelObject {
 		this._id = _id;
 	}
 
-	public long getShopifyCustomerId() {
-		return shopifyCustomerId;
+	public long getLeadId() {
+		return leadId;
 	}
 
-	public void setShopifyCustomerId(long shopifyCustomerId) {
-		this.shopifyCustomerId = shopifyCustomerId;
+	public void setLeadId(long leadId) {
+		this.leadId = leadId;
 	}
 
 	public int getProffesionId() {
@@ -141,7 +141,7 @@ public class Tradesman implements MongoModelObject {
 
 	@Override
 	public String toString() {
-		return "Tradesman [_id=" + _id + ", shopifyCustomerId=" + shopifyCustomerId + ", proffesionId=" + proffesionId
+		return "Tradesman [_id=" + _id + ", leadId=" + leadId + ", proffesionId=" + proffesionId
 				+ ", contactName=" + contactName + ", companyName=" + companyName + ", email=" + email + ", telephone="
 				+ telephone + ", password=" + password + ", logoUrl=" + logoUrl + ", rating=" + rating
 				+ ", lastKnownLocation=" + lastKnownLocation + ", workingAreas=" + Arrays.toString(workingAreas)

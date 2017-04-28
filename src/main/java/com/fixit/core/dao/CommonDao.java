@@ -7,6 +7,7 @@ import java.util.Map;
 import com.fixit.core.data.DataModelObject;
 
 public interface CommonDao<E extends DataModelObject<ID>, ID extends Serializable> {
+	
 	void save(E entity);
 	void update(E entity);
 	void delete(ID id);

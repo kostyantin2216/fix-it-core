@@ -94,7 +94,7 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public Integer getCount(Map<String, Object> properties) {
+	public Long getCount(Map<String, Object> properties) {
 		String hqlQuery = "select count(1) ";
 		if(properties != null && !properties.isEmpty()) {
 			 hqlQuery += createHqlQuery(properties);
@@ -102,7 +102,7 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 			hqlQuery += entityClassName;
 		}
 		
-		TypedQuery<Integer> query = getSession().createQuery(hqlQuery);
+		TypedQuery<Long> query = getSession().createQuery(hqlQuery);
 
 		fillQuery(query, properties);
 		

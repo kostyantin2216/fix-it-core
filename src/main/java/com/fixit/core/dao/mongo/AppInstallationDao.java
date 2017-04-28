@@ -1,9 +1,8 @@
 /**
  * 
  */
-package com.fixit.core.dao.sql;
+package com.fixit.core.dao.mongo;
 
-import com.fixit.core.dao.mongo.MongoDao;
 import com.fixit.core.data.mongo.AppInstallation;
 
 /**

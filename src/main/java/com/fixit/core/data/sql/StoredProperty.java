@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fixit.core.utils.CommonUtils;
+
 /**
  * @author 		Kostyantin
  * @createdAt 	2016/12/21 21:40:20 GMT+2
@@ -21,6 +23,13 @@ import javax.persistence.TemporalType;
 @Table(name = "StoredProperty")
 @IdClass(StoredProperty.StoredPropertyPK.class)
 public class StoredProperty implements SqlModelObject<StoredProperty.StoredPropertyPK> {
+	
+	public enum Type {
+		STRING,
+		DOUBLE,
+		INTEGER,
+		BOOLEAN
+	}
 	
 	@Id
 	private String group;
@@ -84,6 +93,26 @@ public class StoredProperty implements SqlModelObject<StoredProperty.StoredPrope
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	
+	public Type getValueType() {
+		if(value == null) {
+			return null;
+		}
+		
+		if(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false")) {
+			return Type.BOOLEAN;
+		}
+		
+		if(CommonUtils.isNumeric(value)) {
+			if(CommonUtils.isInteger(value)) {
+				return Type.INTEGER;
+			} else {
+				return Type.DOUBLE;
+			}
+		}
+		
+		return Type.STRING;
+	}
 
 	@Override
 	public String toString() {
@@ -95,6 +124,8 @@ public class StoredProperty implements SqlModelObject<StoredProperty.StoredPrope
 		
 		protected String group;
 		protected String key;
+		
+		public StoredPropertyPK() { }
 		
 		public StoredPropertyPK(String group, String key) {
 			this.group = group;

@@ -36,18 +36,12 @@ public class GsonManager {
 	 * 
 	 * @return GsonBuilder for rest resource gson.
 	 */
-	private GsonBuilder getRestResourceGsonBuilder() {
+	public GsonBuilder getRestResourceGsonBuilder() {
 		return new GsonBuilder()
 				.setDateFormat(DateUtils.FORMAT_REST_DATE)
 				.registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdatper())
                 .enableComplexMapKeySerialization();
 	}
+
 	
-	public Gson getRestResourceGson() {
-		return getRestResourceGsonBuilder().create();
-	}
-	
-	public Gson getRestResourcePrettyGson() {
-		return getRestResourceGsonBuilder().setPrettyPrinting().create();
-	}
 }

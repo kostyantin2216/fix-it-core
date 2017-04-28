@@ -1,12 +1,11 @@
 /**
  * 
  */
-package com.fixit.core.dao.sql.impl;
+package com.fixit.core.dao.mongo.impl;
 
 import org.springframework.stereotype.Repository;
 
-import com.fixit.core.dao.mongo.impl.MongoDaoImpl;
-import com.fixit.core.dao.sql.AppInstallationDao;
+import com.fixit.core.dao.mongo.AppInstallationDao;
 import com.fixit.core.data.mongo.AppInstallation;
 
 /**

@@ -24,7 +24,7 @@ public class ReviewDaoImpl extends SqlDaoImpl<Review, ReviewPK>
 	public final static String PROP_CREATED_AT = "createdAt";
 
 	@Override
-	public Integer getCountForTradesman(String tradesmanId) {
+	public Long getCountForTradesman(String tradesmanId) {
 		Map<String, Object> props = new HashMap<>();
 		props.put(PROP_TRADESMAN_ID, tradesmanId);
 		return getCount(props);

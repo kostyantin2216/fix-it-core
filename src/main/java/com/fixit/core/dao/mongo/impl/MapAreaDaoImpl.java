@@ -4,6 +4,9 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.geoIntersects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bson.Document;
 import org.springframework.stereotype.Repository;
 
@@ -54,6 +57,38 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 		
 		return mGson.fromJson(result.first().toJson(), MapArea.class);
 	}
+
+	@Override
+	public List<MapArea> getAreasIn(MapArea mapArea, MapAreaType requestedType) throws IllegalArgumentException {
+		MapAreaType queryType = mapArea.getEnumType();
+		
+		if(queryType.level > requestedType.level) {
+			throw new IllegalArgumentException("Cannot look for " + requestedType.name() + " type's in " + queryType.name() + " type.");
+		} else if(queryType.level == requestedType.level) {
+			List<MapArea> mapAreas = new ArrayList<>();
+			mapAreas.add(mapArea);
+			return mapAreas;
+		} else {
+			return drillDownAreasToType(findByProperty(PROP_PARENT_ID, mapArea.get_id()), requestedType);
+		}
+	}
+	
+	private List<MapArea> drillDownAreasToType(List<MapArea> fromAreas, MapAreaType requestedType) {
+		List<MapArea> resultingAreas = new ArrayList<>();
+		
+		if(fromAreas != null && !fromAreas.isEmpty()) {
+			for(MapArea mapArea : fromAreas) {
+				if(mapArea.getEnumType() == requestedType) {
+					resultingAreas.add(mapArea);
+				} else {
+					resultingAreas.addAll(drillDownAreasToType(findByProperty(PROP_PARENT_ID, mapArea.get_id()), requestedType));
+				}
+			}
+		}
+		
+		return resultingAreas;
+	}
+
 	
 	@Override
 	public String getTableName() {
@@ -64,5 +99,4 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 	public Class<MapArea> getEntityClass() {
 		return MapArea.class;
 	}
-
 }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 import org.bson.types.ObjectId;
 
-import com.fixit.core.synchronization.SynchronizationAction;
+import com.fixit.core.data.SynchronizationAction;
 
 /**
  * @author 		Kostyantin
