@@ -14,6 +14,7 @@ import com.fixit.core.data.sql.SqlModelObject;
  * @createdAt 	2016/12/15 21:49:05 GMT+2
  */
 public interface SqlDao<E extends SqlModelObject<ID>, ID extends Serializable> 
-		extends CommonDao<E, ID> {
+		extends CommonDao<E, ID>, HibernateDao {
 	Long getCount(Map<String, Object> properties);
+	boolean contains(E entity);
 }

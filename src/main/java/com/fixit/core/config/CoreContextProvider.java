@@ -5,6 +5,7 @@ import javax.mail.Session;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import com.fixit.core.dao.mongo.MapAreaDao;
@@ -19,6 +20,11 @@ public class CoreContextProvider implements ApplicationContextAware {
 
 	private static ApplicationContext context;
 
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		context = applicationContext;
+	}
+	
 	public static ApplicationContext getApplicationContext() {
 		return context;
 	}
@@ -30,15 +36,14 @@ public class CoreContextProvider implements ApplicationContextAware {
 	public static <T> T getBean(Class<T> requiredType) {
 		return context.getBean(requiredType);
 	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		context = applicationContext;
-	}
 	
 	// Beans
 	public static Session getMailSession() {
 		return (Session) context.getBean("mailSession");
+	}
+	
+	public static MessageSource getMessageSource() {
+		return (MessageSource) context.getBean("messageSource");
 	}
 	
 	// Data Access Objects

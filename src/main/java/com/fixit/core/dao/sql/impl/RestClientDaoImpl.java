@@ -22,6 +22,11 @@ public class RestClientDaoImpl extends SqlDaoImpl<RestClient, String> implements
 	public final static String PROP_USER_AGENT = "userAgent";
 	public final static String PROP_KEY = "key";
 	public final static String PROP_IS_ACTIVE = "isActive";
+
+	@Override
+	public RestClient findByName(String name) {
+		return findOneByProperty(PROP_NAME, name);
+	}
 	
 	@Override
 	public String getTableName() {

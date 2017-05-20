@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import com.fixit.core.dao.mongo.MapAreaDao;
@@ -73,6 +74,16 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 		}
 	}
 	
+	@Override
+	public List<MapArea> getAreasForType(MapAreaType type) {
+		return findByProperty(PROP_TYPE, type.name());
+	}
+	
+	@Override
+	public List<MapArea> getChildren(ObjectId parentId) {
+		return findByProperty(PROP_PARENT_ID, parentId);
+	}
+	
 	private List<MapArea> drillDownAreasToType(List<MapArea> fromAreas, MapAreaType requestedType) {
 		List<MapArea> resultingAreas = new ArrayList<>();
 		
@@ -89,7 +100,6 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 		return resultingAreas;
 	}
 
-	
 	@Override
 	public String getTableName() {
 		return TABLE_NAME;

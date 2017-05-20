@@ -1,7 +1,18 @@
 package com.fixit.core.data;
 
 import java.util.Arrays;
+import java.util.Calendar;
 
+/**
+ * Created by konstantin on 4/2/2017.
+ *
+ * dayOfWeek starts from 1 same as {@link Calendar}.
+ *  1 = sunday
+ *  2 = monday
+ *  3 = tuesday
+ *  etc..
+ *
+ */
 public class WorkingDay {
 	
 	private int dayOfWeek;
@@ -30,7 +41,7 @@ public class WorkingDay {
 	
 	@Override
 	public String toString() {
-		return "OpeningDays [day=" + dayOfWeek + ", hours=" + Arrays.toString(hours) + "]";
+		return "WorkingDay [day=" + dayOfWeek + ", hours=" + Arrays.toString(hours) + "]";
 	}
 	
 }

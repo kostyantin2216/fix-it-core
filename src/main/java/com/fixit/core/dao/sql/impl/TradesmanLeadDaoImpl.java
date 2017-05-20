@@ -5,17 +5,19 @@ package com.fixit.core.dao.sql.impl;
 
 import javax.persistence.TypedQuery;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.fixit.core.dao.sql.TradesmanLeadDao;
 import com.fixit.core.data.sql.TradesmanLead;
+import com.fixit.core.logging.FILog;
+import com.fixit.core.utils.Constants;
 
 /**
  * @author 		Kostyantin
  * @createdAt 	2017/04/27 20:53:52 GMT+3
  */
-@Component("tradesmanLeadDao")
+@Repository("tradesmanLeadDao")
 public class TradesmanLeadDaoImpl extends SqlDaoImpl<TradesmanLead, Long> 
 	implements TradesmanLeadDao {
 
@@ -56,7 +58,13 @@ public class TradesmanLeadDaoImpl extends SqlDaoImpl<TradesmanLead, Long>
 				query.setParameter(PROP_SHOPIFY_ID, shopifyId);
 				query.setParameter(PROP_EMAIL, email);
 				
-				return query.getSingleResult() == 0;
+				boolean isNewLead = query.getSingleResult() == 0;
+				
+				if(!isNewLead) {
+					FILog.w(Constants.LT_TRADESMAN_REGISTRATION, "Lead is already registered: " + lead, true);
+				}
+				
+				return isNewLead;
 			}
 		}
 		return false;

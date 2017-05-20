@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CommonUtils {
+	
 	public static <E> String toString(List<E> list) {
 		StringBuilder sb = new StringBuilder();
 		
@@ -20,6 +21,10 @@ public class CommonUtils {
 		}
 		
 		return sb.toString();
+	}
+	
+	public static String capitalizeSentence(String sentence) {
+		return sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
 	}
 	
 	public static float percent(float percent, float amount) {

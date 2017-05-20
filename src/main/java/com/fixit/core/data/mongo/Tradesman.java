@@ -11,8 +11,7 @@ import com.fixit.core.data.WorkingDay;
 public class Tradesman implements MongoModelObject {
 
 	private ObjectId _id;
-	private long leadId;
-	private int proffesionId;
+	private int professionId;
 	private String contactName;
 	private String companyName;
 	private String email;
@@ -34,21 +33,13 @@ public class Tradesman implements MongoModelObject {
 	public void set_id(ObjectId _id) {
 		this._id = _id;
 	}
-
-	public long getLeadId() {
-		return leadId;
+	
+	public int getProfessionId() {
+		return professionId;
 	}
 
-	public void setLeadId(long leadId) {
-		this.leadId = leadId;
-	}
-
-	public int getProffesionId() {
-		return proffesionId;
-	}
-
-	public void setProffesionId(int proffesionId) {
-		this.proffesionId = proffesionId;
+	public void setProfessionId(int professionId) {
+		this.professionId = professionId;
 	}
 
 	public String getContactName() {
@@ -138,10 +129,12 @@ public class Tradesman implements MongoModelObject {
 	public void setSubscriptionExpiryTime(Date subscriptionExpiryTime) {
 		this.subscriptionExpiryTime = subscriptionExpiryTime;
 	}
+	
+	
 
 	@Override
 	public String toString() {
-		return "Tradesman [_id=" + _id + ", leadId=" + leadId + ", proffesionId=" + proffesionId
+		return "Tradesman [_id=" + _id + ", professionId=" + professionId
 				+ ", contactName=" + contactName + ", companyName=" + companyName + ", email=" + email + ", telephone="
 				+ telephone + ", password=" + password + ", logoUrl=" + logoUrl + ", rating=" + rating
 				+ ", lastKnownLocation=" + lastKnownLocation + ", workingAreas=" + Arrays.toString(workingAreas)

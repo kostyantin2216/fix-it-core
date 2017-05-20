@@ -9,6 +9,7 @@ package com.fixit.core.data;
  */
 public class DeviceInfo {
 	
+	private String id;
 	private String brand;
 	private String model;
 	private String manufacturer;
@@ -17,7 +18,7 @@ public class DeviceInfo {
 	
 	public DeviceInfo() { }
 	
-	public DeviceInfo(String brand, String model, String manufacturer, String device, VersionInfo androidVersion) {
+	public DeviceInfo(String id, String brand, String model, String manufacturer, String device, VersionInfo androidVersion) {
 		this.brand = brand;
 		this.model = model;
 		this.manufacturer = manufacturer;
@@ -25,6 +26,14 @@ public class DeviceInfo {
 		this.androidVersion = androidVersion;
 	}
 	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getModel() {
 		return model;
 	}
@@ -67,8 +76,8 @@ public class DeviceInfo {
 
 	@Override
 	public String toString() {
-		return "DeviceInfo [brand=" + brand + ", model=" + model + ", manufacturer=" + manufacturer + ", device="
-				+ device + ", androidVersion=" + androidVersion + "]";
+		return "DeviceInfo [id=" + id + ", brand=" + brand + ", model=" + model + ", manufacturer=" + manufacturer
+				+ ", device=" + device + ", androidVersion=" + androidVersion + "]";
 	}
 	
 }

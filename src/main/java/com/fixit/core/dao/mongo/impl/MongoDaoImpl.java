@@ -4,21 +4,29 @@ import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 
 import com.fixit.core.config.CoreContextProvider;
 import com.fixit.core.dao.mongo.MongoDao;
+import com.fixit.core.dao.queries.DataResourceQuery;
+import com.fixit.core.dao.queries.MongoDataResourceQueryProcessor;
 import com.fixit.core.data.mongo.MongoModelObject;
+import com.fixit.core.exceptions.IllegalQueryPropertyException;
 import com.fixit.core.logging.FILog;
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.Filters;
 
 @Scope("request")
 public abstract class MongoDaoImpl<E extends MongoModelObject> 
@@ -26,10 +34,12 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 
 	protected final MongoCollection<Document> mCollection;
 	protected final Gson mGson;
+	private final MongoDataResourceQueryProcessor queryProcessor;
 	
 	public MongoDaoImpl() {
 		mCollection = CoreContextProvider.getMongoClientManager().getCollection(getTableName());
 		mGson = CoreContextProvider.getGsonManager().getMongoGson();
+		queryProcessor = new MongoDataResourceQueryProcessor();
 	}
 	
 	@Override
@@ -47,6 +57,11 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	@Override
 	public void delete(ObjectId id) {
 		mCollection.deleteOne(eq("_id", id));
+	}
+	
+	@Override
+	public List<E> find(Bson bsonFilter) {
+		return convertToList(mCollection.find(bsonFilter).iterator());
 	}
 
 	@Override
@@ -90,6 +105,30 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	@Override
 	public List<E> findAll() {
 		return convertToList(mCollection.find().iterator());
+	} 
+	
+	@Override
+	public List<E> processQueries(DataResourceQuery... queries) {
+		Set<Bson> queryDocs = new HashSet<>();
+		Bson latestQuery = null;
+		for(DataResourceQuery query : queries) {
+			Class<?> propType = BeanUtils.findPropertyType(query.getProp(), getEntityClass());
+			if(propType.getName().equals(Object.class.getName())) {
+				throw new IllegalQueryPropertyException("Data query property \"" + query.getProp() + "\" does not exist");
+			} else {
+				Bson bsonQuery = queryProcessor.process(query, propType.getName());
+				if(bsonQuery != null) {
+					latestQuery = bsonQuery;
+					queryDocs.add(bsonQuery);
+				}
+			}
+		}
+
+		if(latestQuery != null) {
+			return find(queryDocs.size() == 1 ? latestQuery : Filters.and(queryDocs));
+		} else {
+			return Collections.emptyList();
+		}
 	}
 	
 	protected List<E> convertToList(MongoCursor<Document> cursor) {

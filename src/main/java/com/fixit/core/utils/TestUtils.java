@@ -23,8 +23,7 @@ public class TestUtils {
 
 	public static Tradesman createDummyTradesman() {
 		Tradesman tradesman = new Tradesman();
-		tradesman.setLeadId(123);
-		tradesman.setProffesionId(1);
+		tradesman.setProfessionId(1);
 		tradesman.setContactName("Bob Test");
 		tradesman.setCompanyName("Bob's Test Plumbers");
 		tradesman.setEmail("kostya2216@gmail.com");

@@ -1,4 +1,4 @@
-package com.fixit.core.general;
+package com.fixit.core.messaging;
 
 import java.util.Arrays;
 import java.util.List;

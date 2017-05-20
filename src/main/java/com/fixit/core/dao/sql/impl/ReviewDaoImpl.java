@@ -1,6 +1,7 @@
 package com.fixit.core.dao.sql.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,11 @@ public class ReviewDaoImpl extends SqlDaoImpl<Review, ReviewPK>
 		Map<String, Object> props = new HashMap<>();
 		props.put(PROP_TRADESMAN_ID, tradesmanId);
 		return getCount(props);
+	}
+	
+	@Override
+	public List<Review> getReviewsForTradesman(String tradesmanId) {
+		return findByProperty(PROP_TRADESMAN_ID, tradesmanId);
 	}
 	
 	@Override

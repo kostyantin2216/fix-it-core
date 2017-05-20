@@ -1,6 +1,9 @@
 package com.fixit.core.dao.mongo.impl;
 
-import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Filters.all;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.in;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,7 +22,6 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 
 	public final static String TABLE_NAME = "Tradesman";
 	
-	public final static String PROP_LEAD_ID = "leadId";
 	public final static String PROP_PROFESSION_ID = "proffesionId";
 	public final static String PROP_NAME = "name";
 	public final static String PROP_EMAIL = "email";
@@ -52,7 +54,7 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 		
 		return convertToList(result.iterator());
 	}
-	
+
 	@Override
 	public String getTableName() {
 		return TABLE_NAME;

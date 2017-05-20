@@ -8,30 +8,32 @@ import java.util.Map;
 
 import javax.persistence.TypedQuery;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.type.Type;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fixit.core.dao.queries.DataResourceQuery;
+import com.fixit.core.dao.queries.SqlDataResourceQueryProcessor;
 import com.fixit.core.dao.sql.SqlDao;
 import com.fixit.core.data.sql.SqlModelObject;
+import com.fixit.core.exceptions.IllegalQueryPropertyException;
 
 @Transactional
 public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serializable> 
-		implements SqlDao<E, ID> {
+		extends HibernateDaoImpl implements SqlDao<E, ID>  {
 	
 	private final static String ALIAS = "_this";
 	private final String entityClassName;
+	private final SqlDataResourceQueryProcessor queryProcessor;
 	
 	public SqlDaoImpl() {
 		entityClassName = getEntityClass().getSimpleName();
-	}
-	
-	@Autowired
-	private SessionFactory sessionFactory;
-	
-	Session getSession() {
-		return sessionFactory.getCurrentSession();
+		queryProcessor = new SqlDataResourceQueryProcessor();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -49,6 +51,14 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 	public void delete(ID id) {
 		Session session = getSession();
 		session.delete(session.get(getEntityClass(), id));
+	}
+	
+	@Override
+	public boolean contains(E entity) {
+		return getSession().createCriteria(getEntityClass())
+	            .add(Restrictions.idEq(entity.getId()))
+	            .setProjection(Projections.id())
+	            .uniqueResult() != null;
 	}
 
 	@Override
@@ -90,6 +100,27 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 		return getSession()
 				.createQuery("from " + entityClassName, getEntityClass())
 				.getResultList();
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<E> processQueries(DataResourceQuery... queries) {		
+		Criteria crit = getSession().createCriteria(getEntityClass());
+		for(DataResourceQuery query : queries) {
+			ClassMetadata meta = getClassMetadata(getEntityClass());
+			if(meta != null) {
+				Type type = getPropertyType(meta, query.getProp());
+				if(type != null) {
+					Criterion criterion = queryProcessor.process(query, type.getReturnedClass().getName());
+					if(criterion != null) {
+						crit.add(criterion);		
+					}
+				} else {
+					throw new IllegalQueryPropertyException("Data query property \"" + query.getProp() + "\" does not exist");
+				}
+			}
+		}
+		return crit.list();
 	}
 	
 	@Override

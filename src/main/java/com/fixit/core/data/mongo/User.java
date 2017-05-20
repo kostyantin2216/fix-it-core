@@ -9,14 +9,19 @@ public class User implements MongoModelObject {
 	private String email;
 	private String password;
 	private String telephone;
+	private String facebookId;
+	private String googleId;
 	
 	public User() { }
-	
-	public User(String name, String email, String password, String telephone) {
+
+	public User(String name, String email, String password, String telephone, String facebookId,
+			String googleId) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.telephone = telephone;
+		this.facebookId = facebookId;
+		this.googleId = googleId;
 	}
 
 	@Override
@@ -61,10 +66,26 @@ public class User implements MongoModelObject {
 		this.telephone = telephone;
 	}
 
+	public String getFacebookId() {
+		return facebookId;
+	}
+
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
+	}
+
+	public String getGoogleId() {
+		return googleId;
+	}
+
+	public void setGoogleId(String googleId) {
+		this.googleId = googleId;
+	}
+
 	@Override
 	public String toString() {
 		return "User [_id=" + _id + ", name=" + name + ", email=" + email + ", password=" + password + ", telephone="
-				+ telephone + "]";
+				+ telephone + ", facebookId=" + facebookId + ", googleId=" + googleId + "]";
 	}
 
 }

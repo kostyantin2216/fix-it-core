@@ -18,4 +18,13 @@ public enum MapAreaType {
 	private MapAreaType(int level) {
 		this.level = level;
 	}
+	
+	public static MapAreaType findByLevel(int level) {
+		for(MapAreaType type : values()) {
+			if(level == type.level) {
+				return type;
+			}
+		}
+		return null;
+	}
 }

@@ -3,7 +3,7 @@
  */
 package com.fixit.core.dao.sql.impl;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.fixit.core.dao.sql.ServerLogDao;
 import com.fixit.core.data.sql.ServerLog;
@@ -12,7 +12,7 @@ import com.fixit.core.data.sql.ServerLog;
  * @author 		Kostyantin
  * @createdAt 	2017/04/27 21:45:12 GMT+3
  */
-@Component("serverLogDao")
+@Repository("serverLogDao")
 public class ServerLogDaoImpl extends SqlDaoImpl<ServerLog, Long> 
 	implements ServerLogDao {
 

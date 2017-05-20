@@ -1,15 +1,13 @@
 package com.fixit.core.data;
 
-import java.util.List;
-
 public class Geometry {
 	
 	private String type;
-	private List<List<double[]>> coordinates;
+	private double[][][] coordinates;
 	
 	public Geometry() { }
 	
-	public Geometry(String type, List<List<double[]>> coordinates) {
+	public Geometry(String type, double[][][] coordinates) {
 		this.type = type;
 		this.coordinates = coordinates;
 	}
@@ -22,11 +20,11 @@ public class Geometry {
 		this.type = type;
 	}
 
-	public List<List<double[]>> getCoordinates() {
+	public double[][][] getCoordinates() {
 		return coordinates;
 	}
 
-	public void setCoordinates(List<List<double[]>> coordinates) {
+	public void setCoordinates(double[][][] coordinates) {
 		this.coordinates = coordinates;
 	}
 

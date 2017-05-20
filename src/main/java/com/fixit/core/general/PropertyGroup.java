@@ -3,6 +3,7 @@
  */
 package com.fixit.core.general;
 
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import com.fixit.core.dao.sql.StoredPropertyDao;
 import com.fixit.core.data.sql.StoredProperty;
 import com.fixit.core.logging.FILog;
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.Gson;
 
 /**
  * @author 		Kostyantin
@@ -22,12 +24,16 @@ public class PropertyGroup {
 	private final static String LOG_TAG = PropertyGroup.class.getSimpleName();
 	
 	public enum Group {
-		mail
+		mail,
+		web, 
+		forms
 	}
 
 	private final ImmutableMap<String, Object> properties;
+	private final Gson gson;
 	
 	public PropertyGroup(StoredPropertyDao dao, Group group) {
+		this.gson = new Gson();
 		List<StoredProperty> properties = dao.getPropertyForGroup(group.name());
 		
 		if(properties != null) {
@@ -97,6 +103,14 @@ public class PropertyGroup {
 	
 	private void handleCCE(String key, ClassCastException e) {
 		FILog.e(LOG_TAG, "Wrong type for property with key: " + key, e, true);
+	}
+	
+	public <T> T getJsonProperty(String key, Class<T> type) {
+		return gson.fromJson(getString(key, ""), type);
+	}
+
+	public <T> List<T> getJsonProperty(String key, Type listType) {
+		return gson.fromJson(getString(key, ""), listType);
 	}
 	
 	public Properties extractProperties(String... keys) {

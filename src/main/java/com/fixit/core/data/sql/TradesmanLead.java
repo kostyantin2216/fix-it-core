@@ -5,6 +5,7 @@ package com.fixit.core.data.sql;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fixit.eclipse.utils.JsonToStringBuilder;
 
 /**
  * @author 		Kostyantin
@@ -22,7 +25,7 @@ import javax.persistence.TemporalType;
 public class TradesmanLead implements SqlModelObject<Long> {
 	
 	public static TradesmanLead newLead(Long shopifyId, String firstName, String lastName, String email) {
-		return new TradesmanLead(shopifyId, firstName, lastName, email, new Date());
+		return new TradesmanLead(shopifyId, null, firstName, lastName, email, new Date());
 	}
 	
 	@Id
@@ -31,10 +34,13 @@ public class TradesmanLead implements SqlModelObject<Long> {
 	
 	private Long shopifyId;
 	
+	private Long tradesmanId;
+	
 	private String firstName;
 	
 	private String lastName;
 	
+	@Column(unique = true)
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -42,12 +48,13 @@ public class TradesmanLead implements SqlModelObject<Long> {
 	
 	public TradesmanLead() { }
 
-	private TradesmanLead(Long shopifyId, String firstName, String lastName, String email, Date createdAt) {
+	private TradesmanLead(Long shopifyId, Long tradesmanId, String firstName, String lastName, String email, Date createdAt) {
 		this.shopifyId = shopifyId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.createdAt = createdAt;
+		this.tradesmanId = tradesmanId;
 	}
 	
 	@Override
@@ -66,6 +73,14 @@ public class TradesmanLead implements SqlModelObject<Long> {
 
 	public void setShopifyId(Long shopifyId) {
 		this.shopifyId = shopifyId;
+	}
+
+	public Long getTradesmanId() {
+		return tradesmanId;
+	}
+
+	public void setTradesmanId(Long tradesmanId) {
+		this.tradesmanId = tradesmanId;
 	}
 
 	public String getFirstName() {
@@ -102,8 +117,15 @@ public class TradesmanLead implements SqlModelObject<Long> {
 
 	@Override
 	public String toString() {
-		return "TradesmanLead [id=" + id + ", shopifyId=" + shopifyId + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", email=" + email + ", createdAt=" + createdAt + "]";
-	}	
-	
+		JsonToStringBuilder sb = new JsonToStringBuilder(this);
+		sb.append("id", id);
+		sb.append("shopifyId", shopifyId);
+		sb.append("tradesmanId", tradesmanId);
+		sb.append("firstName", firstName);
+		sb.append("lastName", lastName);
+		sb.append("email", email);
+		sb.append("createdAt", createdAt);
+		return sb.toString();
+	}
+
 }

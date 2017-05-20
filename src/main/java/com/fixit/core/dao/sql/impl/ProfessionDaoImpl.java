@@ -1,5 +1,7 @@
 package com.fixit.core.dao.sql.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.fixit.core.dao.sql.ProfessionDao;
@@ -19,6 +21,11 @@ public class ProfessionDaoImpl extends UpdateDateSqlDaoImpl<Profession, Integer>
 	public final static String PROP_UPDATED_AT = "updatedAt";
 
 	@Override
+	public List<Profession> getActiveProfessions() {
+		return findByProperty(PROP_IS_ACTIVE, true);
+	}	
+	
+	@Override
 	public String getTableName() {
 		return TABLE_NAME;
 	}
@@ -32,5 +39,4 @@ public class ProfessionDaoImpl extends UpdateDateSqlDaoImpl<Profession, Integer>
 	public Class<Profession> getEntityClass() {
 		return Profession.class;
 	}
-
 }
