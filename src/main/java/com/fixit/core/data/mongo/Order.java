@@ -1,28 +1,24 @@
 package com.fixit.core.data.mongo;
 
-import java.util.Arrays;
-
 import org.bson.types.ObjectId;
 
 import com.fixit.core.data.JobLocation;
 
-public class Job implements MongoModelObject {
+public class Order implements MongoModelObject {
 	
 	private ObjectId _id;
-	private ObjectId tradesmanId;
+	private ObjectId[] tradesmen;
 	private ObjectId userId;
 	private JobLocation location;
 	private String comment;
-	private String[] problems;
 	
-	public Job() { }
+	public Order() { }
 	
-	public Job(ObjectId tradesmanId, ObjectId userId, JobLocation location, String comment, String[] problems) {
-		this.tradesmanId = tradesmanId;
+	public Order(ObjectId[] tradesmen, ObjectId userId, JobLocation location, String comment){
+		this.tradesmen = tradesmen;
 		this.userId = userId;
 		this.location = location;
 		this.comment = comment;
-		this.problems = problems;
 	}
 	
 	@Override
@@ -35,12 +31,12 @@ public class Job implements MongoModelObject {
 		this._id = _id;
 	}
 
-	public ObjectId getTradesmanId() {
-		return tradesmanId;
+	public ObjectId[] getTradesmen() {
+		return tradesmen;
 	}
 
-	public void setTradesmanId(ObjectId tradesmanId) {
-		this.tradesmanId = tradesmanId;
+	public void setTradesmanId(ObjectId[] tradesmen) {
+		this.tradesmen = tradesmen;
 	}
 
 	public ObjectId getUserId() {
@@ -66,19 +62,11 @@ public class Job implements MongoModelObject {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
-
-	public String[] getProblems() {
-		return problems;
-	}
-
-	public void setProblems(String[] problems) {
-		this.problems = problems;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "Job [_id=" + _id + ", tradesmanId=" + tradesmanId + ", userId=" + userId + ", location=" + location
-				+ ", comment=" + comment + ", problems=" + Arrays.toString(problems) + "]";
+		return "Job [_id=" + _id + ", tradesmen=" + tradesmen + ", userId=" + userId + ", location=" + location
+				+ ", comment=" + comment + "]";
 	}
 
 }

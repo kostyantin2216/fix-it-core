@@ -7,19 +7,19 @@ public class User implements MongoModelObject {
 	private ObjectId _id;
 	private String name;
 	private String email;
-	private String password;
 	private String telephone;
+	private String avatarUrl;
 	private String facebookId;
 	private String googleId;
 	
 	public User() { }
 
-	public User(String name, String email, String password, String telephone, String facebookId,
-			String googleId) {
+	public User(String name, String email, String telephone, String avatarUrl,
+				String facebookId, String googleId) {
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.telephone = telephone;
+		this.avatarUrl = avatarUrl;
 		this.facebookId = facebookId;
 		this.googleId = googleId;
 	}
@@ -50,20 +50,20 @@ public class User implements MongoModelObject {
 		this.email = email;
 	}
 	
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
 	public String getTelephone() {
 		return telephone;
 	}
 
 	public void setTelephone(String telephone) {
 		this.telephone = telephone;
+	}
+
+	public String getUserAvatarUrl() {
+		return avatarUrl;
+	}
+
+	public void setUserAvatarUrl(String userAvatarUrl) {
+		this.avatarUrl = userAvatarUrl;
 	}
 
 	public String getFacebookId() {
@@ -84,8 +84,9 @@ public class User implements MongoModelObject {
 
 	@Override
 	public String toString() {
-		return "User [_id=" + _id + ", name=" + name + ", email=" + email + ", password=" + password + ", telephone="
-				+ telephone + ", facebookId=" + facebookId + ", googleId=" + googleId + "]";
+		return "User [_id=" + _id + ", name=" + name + ", email=" + email + ", telephone=" + telephone 
+				+ ", userAvatarUrl=" + avatarUrl + ", facebookId=" + facebookId + ", googleId="
+				+ googleId + "]";
 	}
 
 }

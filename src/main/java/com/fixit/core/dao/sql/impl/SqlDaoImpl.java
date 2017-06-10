@@ -76,6 +76,15 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 		}
 		return null;
 	}
+	
+	@Override
+	public E findOneByMap(Map<String, Object> properties) {
+		List<E> l = findByMap(properties);
+		if(l != null && !l.isEmpty()) {
+			return l.get(0);
+		}
+		return null;
+	}
 
 	@Override
 	public List<E> findByProperty(String property, Object value) {

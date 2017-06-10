@@ -128,6 +128,25 @@ public class JobLocation {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	
+	public String toReadableAddress() {
+		StringBuilder sb = new StringBuilder();
+		
+		if(apartmentNum > -1) {
+			sb.append(apartmentNum).append("/");
+		}
+		sb.append(streetNum).append(" ");
+		if(floorNum > -1) {
+			sb.append("floor ").append(floorNum).append(" ");
+		}
+		
+		sb.append(street).append(" ")
+		  .append(neighborhood).append(", ")
+		  .append(city).append(", ")
+		  .append(province);
+		
+		return sb.toString();
+	}
 
 	@Override
 	public String toString() {

@@ -16,6 +16,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.fixit.core.data.sql.DataType;
+import com.fixit.core.data.sql.JobReason;
+import com.fixit.core.data.sql.OrderMessage;
 import com.fixit.core.data.sql.Profession;
 import com.fixit.core.data.sql.RestClient;
 import com.fixit.core.data.sql.Review;
@@ -55,6 +57,8 @@ public class HibernateConfiguration {
 	private Class<?>[] annotatedClasses() {
 		return new Class<?>[] {
 			DataType.class,
+			JobReason.class,
+			OrderMessage.class,
 			Profession.class,
 			RestClient.class,
 			Review.class,

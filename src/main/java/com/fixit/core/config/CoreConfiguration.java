@@ -15,6 +15,8 @@ import com.fixit.core.general.PropertyGroup;
 import com.fixit.core.general.PropertyGroup.Group;
 import com.fixit.core.general.StoredProperties;
 import com.fixit.core.logging.FILog;
+import com.fixit.core.messaging.SimpleMessageSender;
+import com.twilio.Twilio;
 
 @Configuration
 @ComponentScan(basePackages = {"com.fixit.core"})
@@ -41,6 +43,20 @@ public class CoreConfiguration {
 				return new PasswordAuthentication(username, password);
 			}
 		});
+	}
+	
+	@Bean
+	@Autowired
+	public SimpleMessageSender simpleMessageSender(StoredPropertyDao dao) {
+		FILog.i("creating simple message sender");
+		PropertyGroup propertyGroup = dao.getPropertyGroup(Group.sms);
+		
+		String accSid = propertyGroup.getString(StoredProperties.SMS_TWILIO_ACC_SID, null);
+		String authToken = propertyGroup.getString(StoredProperties.SMS_TWILIO_AUTH_TOKEN, null);
+		
+		Twilio.init(accSid, authToken);
+		
+		return new SimpleMessageSender(propertyGroup.getString(StoredProperties.SMS_ORDER_FROM_TELEPHONE, null));
 	}
 	
 }

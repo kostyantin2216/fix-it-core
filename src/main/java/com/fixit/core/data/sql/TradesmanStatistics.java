@@ -17,6 +17,8 @@ public class TradesmanStatistics implements SqlModelObject<String> {
 	
 	private Integer timesShown;
 	
+	private Integer jobsSent;
+	
 	private Integer jobsCompleted;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -24,9 +26,18 @@ public class TradesmanStatistics implements SqlModelObject<String> {
 	
 	public TradesmanStatistics() { }
 	
-	public TradesmanStatistics(String tradesmanId, Integer timesShown, Integer jobsCompleted, Date joinDate) {
+	public TradesmanStatistics(String tradesmanId) {
+		this.tradesmanId = tradesmanId;
+		this.timesShown = 0;
+		this.jobsSent = 0;
+		this.jobsCompleted = 0;
+		this.joinDate = new Date();
+	}
+	
+	public TradesmanStatistics(String tradesmanId, Integer timesShown, Integer jobsSent, Integer jobsCompleted, Date joinDate) {
 		this.tradesmanId = tradesmanId;
 		this.timesShown = timesShown;
+		this.jobsSent = jobsSent;
 		this.jobsCompleted = jobsCompleted;
 		this.joinDate = joinDate;
 	}
@@ -57,6 +68,14 @@ public class TradesmanStatistics implements SqlModelObject<String> {
 		this.timesShown = timesShown;
 	}
 
+	public Integer getJobsSent() {
+		return jobsSent;
+	}
+
+	public void setJobsSent(Integer jobsSent) {
+		this.jobsSent = jobsSent;
+	}
+
 	public Integer getJobsCompleted() {
 		return jobsCompleted;
 	}
@@ -75,8 +94,8 @@ public class TradesmanStatistics implements SqlModelObject<String> {
 
 	@Override
 	public String toString() {
-		return "TradesmanStatistics [tradesmanId=" + tradesmanId + ", timesShown=" + timesShown + ", jobsCompleted="
-				+ jobsCompleted + ", joinDate=" + joinDate + "]";
+		return "TradesmanStatistics [tradesmanId=" + tradesmanId + ", timesShown=" + timesShown + ", jobsSent="
+				+ jobsSent + ", jobsCompleted=" + jobsCompleted + ", joinDate=" + joinDate + "]";
 	}
 	
 }

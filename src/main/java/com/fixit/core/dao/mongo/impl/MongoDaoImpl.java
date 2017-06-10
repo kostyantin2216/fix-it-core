@@ -68,10 +68,14 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	public E findById(ObjectId id) {
 		MongoCursor<Document> cursor = mCollection.find(new Document("_id", id)).iterator();
 		if(cursor != null) {
-			if(cursor.hasNext()) {
-				String json = cursor.next().toJson();
-				FILog.i("found: " + json);
-				return mGson.fromJson(json, getEntityClass());
+			try {
+				if(cursor.hasNext()) {
+					String json = cursor.next().toJson();
+					FILog.i("found: " + json);
+					return mGson.fromJson(json, getEntityClass());
+				}
+			} finally {
+				cursor.close();
 			}
 		}
 		return null;
@@ -80,6 +84,21 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	@Override
 	public E findOneByProperty(String property, Object value) {
 		Document doc = mCollection.find(eq(property, value)).first();
+		if(doc != null) {
+			return mGson.fromJson(doc.toJson(), getEntityClass());
+		}
+		return null;
+	}
+	
+	@Override
+	public E findOneByMap(Map<String, Object> properties) {
+		List<Bson> filters = new ArrayList<>();
+		
+		for(Map.Entry<String, Object> entry : properties.entrySet()) {
+			filters.add(eq(entry.getKey(), entry.getValue()));
+		}
+		
+		Document doc = mCollection.find(and(filters)).first();
 		if(doc != null) {
 			return mGson.fromJson(doc.toJson(), getEntityClass());
 		}
@@ -135,13 +154,21 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 		List<E> results = new ArrayList<>();
 		
 		if(cursor != null) {
-			while(cursor.hasNext()) {
-				String json = cursor.next().toJson();
-				results.add(mGson.fromJson(json, getEntityClass()));
+			try {
+				while(cursor.hasNext()) {
+					String json = cursor.next().toJson();
+					results.add(mGson.fromJson(json, getEntityClass()));
+				}
+			} finally {
+				cursor.close();
 			}
 		}
 		
 		return results;
+	}
+	
+	protected E convertToType(Document document) {
+		return document != null ? mGson.fromJson(document.toJson(), getEntityClass()) : null;
 	}
 	
 }

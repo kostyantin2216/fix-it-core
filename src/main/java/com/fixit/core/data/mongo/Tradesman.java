@@ -130,8 +130,6 @@ public class Tradesman implements MongoModelObject {
 		this.subscriptionExpiryTime = subscriptionExpiryTime;
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return "Tradesman [_id=" + _id + ", professionId=" + professionId

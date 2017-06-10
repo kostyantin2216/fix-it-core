@@ -39,7 +39,7 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 				)
 		);
 		
-		return mGson.fromJson(result.first().toJson(), MapArea.class);
+		return convertToType(result.first());
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 				)
 		);
 		
-		return mGson.fromJson(result.first().toJson(), MapArea.class);
+		return convertToType(result.first());
 	}
 
 	@Override

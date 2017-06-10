@@ -2,12 +2,12 @@ package com.fixit.core.dao.mongo.impl;
 
 import org.springframework.stereotype.Repository;
 
-import com.fixit.core.dao.mongo.JobDao;
-import com.fixit.core.data.mongo.Job;
+import com.fixit.core.dao.mongo.OrderDao;
+import com.fixit.core.data.mongo.Order;
 
-@Repository("jobDao")
-public class JobDaoImpl extends MongoDaoImpl<Job> 
-		implements JobDao {
+@Repository("orderDao")
+public class OrderDaoImpl extends MongoDaoImpl<Order> 
+		implements OrderDao {
 
 	public final static String TABLE_NAME = "Job";
 	
@@ -23,8 +23,8 @@ public class JobDaoImpl extends MongoDaoImpl<Job>
 	}
 
 	@Override
-	public Class<Job> getEntityClass() {
-		return Job.class;
+	public Class<Order> getEntityClass() {
+		return Order.class;
 	}
 
 }

@@ -17,6 +17,7 @@ import com.fixit.core.data.VersionInfo;
 public class AppInstallation implements MongoModelObject {
 
 	private ObjectId _id;
+	private ObjectId userId;
 	private String playStoreUrl;
 	private DeviceInfo device;
 	private VersionInfo version;
@@ -31,6 +32,14 @@ public class AppInstallation implements MongoModelObject {
 	@Override
 	public void set_id(ObjectId _id) {
 		this._id = _id;
+	}
+
+	public ObjectId getUserId() {
+		return userId;
+	}
+
+	public void setUserId(ObjectId userId) {
+		this.userId = userId;
 	}
 
 	public String getPlayStoreUrl() {

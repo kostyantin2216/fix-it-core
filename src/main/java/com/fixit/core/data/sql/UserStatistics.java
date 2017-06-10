@@ -24,6 +24,13 @@ public class UserStatistics implements SqlModelObject<String> {
 	
 	public UserStatistics() { }
 	
+	public UserStatistics(String userId) {
+		this.userId = userId;
+		this.jobsOrdered = 0;
+		this.reviewsMade = 0;
+		this.registrationDate = new Date();
+	}
+	
 	public UserStatistics(String userId, Integer jobsOrdered, Integer reviewsMade, Date registrationDate) {
 		this.userId = userId;
 		this.jobsOrdered = jobsOrdered;

@@ -3,6 +3,7 @@ package com.fixit.core.config.json;
 import java.lang.reflect.Type;
 
 import org.bson.types.ObjectId;
+import org.springframework.util.StringUtils;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -26,7 +27,8 @@ public class ObjectIdTypeAdatper
 			JsonObject jsonObj = json.getAsJsonObject();
 			objectId = jsonObj.get("$oid").getAsString();
 		}
-		return new ObjectId(objectId);
+		
+		return StringUtils.isEmpty(objectId) ? null : new ObjectId(objectId);
 	}
 	
 	@Override
