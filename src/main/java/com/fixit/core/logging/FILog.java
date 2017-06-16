@@ -1,13 +1,7 @@
 package com.fixit.core.logging;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.fixit.core.config.CoreContextProvider;
-import com.fixit.core.dao.sql.ServerLogDao;
-import com.fixit.core.data.sql.ServerLog;
 
 public class FILog {
 	
@@ -52,7 +46,7 @@ public class FILog {
 		logger.log(level, msg, throwable);		
 		
 		if(storeInDb) {
-			ServerLogDao logDao = CoreContextProvider.getServerLogDao();
+			/*ServerLogDao logDao = CoreContextProvider.getServerLogDao();
 			
 			String stackTrace = null;
 			if(throwable != null) {
@@ -61,7 +55,7 @@ public class FILog {
 				stackTrace = sw.toString();
 			}
 			
-			logDao.save(ServerLog.createLog(tag, level.getName(), msg, stackTrace));
+			logDao.save(ServerLog.createLog(tag, level.getName(), msg, stackTrace));*/
 		}
 	}
 

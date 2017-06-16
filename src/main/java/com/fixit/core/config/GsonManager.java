@@ -1,15 +1,14 @@
 package com.fixit.core.config;
 
 import org.bson.types.ObjectId;
-import org.springframework.stereotype.Service;
 
 import com.fixit.core.config.json.ObjectIdTypeAdatper;
 import com.fixit.core.dao.mongo.impl.MongoDaoImpl;
+import com.fixit.core.logging.FILog;
 import com.fixit.core.utils.DateUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@Service
 public class GsonManager {
 
 	private final Gson mMongoGson;
@@ -37,6 +36,7 @@ public class GsonManager {
 	 * @return GsonBuilder for rest resource gson.
 	 */
 	public GsonBuilder getRestResourceGsonBuilder() {
+		FILog.i("creating rest resource gson");
 		return new GsonBuilder()
 				.setDateFormat(DateUtils.FORMAT_REST_DATE)
 				.registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdatper())

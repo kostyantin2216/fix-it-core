@@ -5,6 +5,8 @@ package com.fixit.core.dao.mongo.impl;
 
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.AppLogDao;
 import com.fixit.core.data.mongo.AppLog;
 
@@ -25,6 +27,10 @@ public class AppLogDaoImpl extends MongoDaoImpl<AppLog> implements AppLogDao {
 	public final static String PROP_DEVICE_INFO = "deviceInfo";
 	public final static String PROP_VERSION_INFO = "versionInfo";
 	public final static String PROP_CREATED_AT = "createdAt";
+	
+	public AppLogDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
 	
 	@Override
 	public String getTableName() {

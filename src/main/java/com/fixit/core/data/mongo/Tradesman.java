@@ -11,6 +11,7 @@ import com.fixit.core.data.WorkingDay;
 public class Tradesman implements MongoModelObject {
 
 	private ObjectId _id;
+	private long leadId;
 	private int professionId;
 	private String contactName;
 	private String companyName;
@@ -34,6 +35,14 @@ public class Tradesman implements MongoModelObject {
 		this._id = _id;
 	}
 	
+	public long getLeadId() {
+		return leadId;
+	}
+
+	public void setLeadId(long leadId) {
+		this.leadId = leadId;
+	}
+
 	public int getProfessionId() {
 		return professionId;
 	}

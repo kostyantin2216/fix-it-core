@@ -8,15 +8,23 @@ import static com.mongodb.client.model.Filters.*;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.Document;
+
 import com.fixit.core.dao.mongo.UpdateDateMongoDao;
 import com.fixit.core.data.mongo.UpdateDateMongoModelObject;
 import com.fixit.core.utils.DateUtils;
+import com.google.gson.Gson;
+import com.mongodb.client.MongoCollection;
 
 /**
  * @author 		Kostyantin
  * @createdAt 	2017/04/01 12:45:20 GMT+3
  */
 public abstract class UpdateDateMongoDaoImpl<DMO extends UpdateDateMongoModelObject> extends MongoDaoImpl<DMO> implements UpdateDateMongoDao<DMO> {
+
+	public UpdateDateMongoDaoImpl(MongoCollection<Document> collection, Gson gson) {
+		super(collection, gson);
+	}
 
 	@Override
 	public List<DMO> getBeforeUpdateDate(Date updateDate) {

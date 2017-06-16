@@ -22,6 +22,7 @@ public abstract class BaseDataResourceQueryProcessor<RESULT>
 			case "java.lang.String":
 				return value;
 			case "java.lang.Boolean":
+			case "boolean":
 				if(value.equalsIgnoreCase("true") || value.equals("1"))
 					return Boolean.TRUE;
 				else if(value.equalsIgnoreCase("false") || value.equals("0")) 
@@ -29,6 +30,7 @@ public abstract class BaseDataResourceQueryProcessor<RESULT>
 				else
 					throw new IllegalQueryValueException("Data query value \"" + value + "\" must be of type java.lang.Boolean");
 			case "java.lang.Integer":
+			case "int":
 				if(value.matches("^(-?)\\d+$"))
 					return Integer.parseInt(value);
 				else

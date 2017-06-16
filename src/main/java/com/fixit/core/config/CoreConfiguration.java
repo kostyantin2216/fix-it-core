@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import com.fixit.core.dao.sql.StoredPropertyDao;
 import com.fixit.core.general.PropertyGroup;
@@ -20,7 +22,21 @@ import com.twilio.Twilio;
 
 @Configuration
 @ComponentScan(basePackages = {"com.fixit.core"})
+@PropertySource("classpath:mongo.properties")
 public class CoreConfiguration {
+	
+	@Bean
+	@Autowired
+	public MongoClientManager mongoClientManager(Environment env) {
+		FILog.i("creating mongo client manager");
+		return new MongoClientManager(env);
+	}
+	
+	@Bean
+	public GsonManager gsonManager() {
+		FILog.i("creating gson manager");
+		return new GsonManager();
+	}
 	
 	@Bean
 	@Autowired

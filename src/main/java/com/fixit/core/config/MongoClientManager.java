@@ -1,25 +1,20 @@
 package com.fixit.core.config;
 
-import org.bson.Document;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Service;
+import javax.annotation.PreDestroy;
 
+import org.bson.Document;
+import org.springframework.core.env.Environment;
+
+import com.fixit.core.logging.FILog;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-@Service
-@PropertySource("classpath:mongo.properties")
-public class MongoClientManager implements ApplicationListener<ContextClosedEvent> {
+public class MongoClientManager  {
 
 	private final MongoClient mClient;
 	private final MongoDatabase mDatabase;
 	
-	@Autowired
 	public MongoClientManager(Environment env) {
 		mClient = new MongoClient(
 				env.getProperty("host"),
@@ -32,8 +27,9 @@ public class MongoClientManager implements ApplicationListener<ContextClosedEven
 		return mDatabase.getCollection(name);
 	}
 	
-	@Override
-	public void onApplicationEvent(ContextClosedEvent event) {
+	@PreDestroy
+	public void cleanUp() {
+		FILog.i("closing mongo client");
 		mClient.close();
 	}
 

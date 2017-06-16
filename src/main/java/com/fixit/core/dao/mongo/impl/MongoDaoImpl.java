@@ -16,7 +16,6 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Scope;
 
-import com.fixit.core.config.CoreContextProvider;
 import com.fixit.core.dao.mongo.MongoDao;
 import com.fixit.core.dao.queries.DataResourceQuery;
 import com.fixit.core.dao.queries.MongoDataResourceQueryProcessor;
@@ -36,9 +35,9 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	protected final Gson mGson;
 	private final MongoDataResourceQueryProcessor queryProcessor;
 	
-	public MongoDaoImpl() {
-		mCollection = CoreContextProvider.getMongoClientManager().getCollection(getTableName());
-		mGson = CoreContextProvider.getGsonManager().getMongoGson();
+	public MongoDaoImpl(MongoCollection<Document> collection, Gson gson) {
+		mCollection = collection;
+		mGson = gson;
 		queryProcessor = new MongoDataResourceQueryProcessor();
 	}
 	

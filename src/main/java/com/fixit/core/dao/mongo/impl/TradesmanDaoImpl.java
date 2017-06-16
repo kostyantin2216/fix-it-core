@@ -9,8 +9,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.TradesmanDao;
 import com.fixit.core.data.mongo.MapArea;
 import com.fixit.core.data.mongo.Tradesman;
@@ -22,7 +25,7 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 
 	public final static String TABLE_NAME = "Tradesman";
 	
-	public final static String PROP_PROFESSION_ID = "proffesionId";
+	public final static String PROP_PROFESSION_ID = "professionId";
 	public final static String PROP_NAME = "name";
 	public final static String PROP_EMAIL = "email";
 	public final static String PROP_TELEPHONE = "telephone";
@@ -34,6 +37,11 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	public final static String PROP_WORKING_AREAS = "workingAreas";
 	public final static String PROP_WORKING_DAYS = "workingDays";
 	public final static String PROP_SUBSCRIPTION_EXPIRY_TIME = "subscriptionExpiryTime";
+	
+	@Autowired
+	public TradesmanDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
 	
 	@Override
 	public List<Tradesman> getTradesmenForArea(MapArea area) {

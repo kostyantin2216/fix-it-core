@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.AppInstallationDao;
 import com.fixit.core.data.mongo.AppInstallation;
 
@@ -28,6 +30,10 @@ public class AppInstallationDaoImpl extends MongoDaoImpl<AppInstallation> implem
 	public final static String PROP_CREATED_AT = "createdAt";
 	
 	public final static String SUB_ID = ".id";
+	
+	public AppInstallationDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
 	
 	@Override
 	public List<AppInstallation> findByDeviceId(String deviceId) {

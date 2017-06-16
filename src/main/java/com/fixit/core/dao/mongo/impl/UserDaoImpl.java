@@ -6,8 +6,11 @@ import java.util.Set;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.UserDao;
 import com.fixit.core.data.mongo.User;
 import com.mongodb.client.FindIterable;
@@ -28,6 +31,11 @@ public class UserDaoImpl extends MongoDaoImpl<User>
 	public final static String PROP_FACEBOOK_ID = "facebookId";
 	public final static String PROP_GOOGLE_ID = "googleId";
 
+	@Autowired
+	public UserDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
+	
 	@Override
 	public Map<ObjectId, Map<String, String>> getDataForReviews(Set<ObjectId> forUsers) {
 		FindIterable<Document> find = mCollection.find(Filters.in(PROP_ID, forUsers))

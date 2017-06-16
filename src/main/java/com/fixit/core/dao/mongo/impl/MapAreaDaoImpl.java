@@ -11,6 +11,8 @@ import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.MapAreaDao;
 import com.fixit.core.data.JobLocation;
 import com.fixit.core.data.MapAreaType;
@@ -30,6 +32,10 @@ public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 	public final static String PROP_TYPE = "type";
 	public final static String PROP_GEOMETRY = "geometry";
 
+	public MapAreaDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
+	
 	@Override
 	public MapArea getMapAreaAtLocationForType(double longitude, double latitude, MapAreaType type) {			
 		FindIterable<Document> result = mCollection.find(

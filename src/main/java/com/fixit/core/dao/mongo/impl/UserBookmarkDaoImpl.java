@@ -3,8 +3,11 @@
  */
 package com.fixit.core.dao.mongo.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.fixit.core.config.GsonManager;
+import com.fixit.core.config.MongoClientManager;
 import com.fixit.core.dao.mongo.UserBookmarkDao;
 import com.fixit.core.data.mongo.UserBookmark;
 
@@ -19,6 +22,11 @@ public class UserBookmarkDaoImpl extends MongoDaoImpl<UserBookmark> implements U
 	
 	public final static String PROP_USER_ID = "userId";
 	public final static String PROP_MAPPINGS = "mappings";
+	
+	@Autowired
+	public UserBookmarkDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
 	
 	@Override
 	public String getTableName() {
