@@ -20,16 +20,6 @@ import com.fixit.core.data.mongo.AppInstallation;
  */
 @Repository("appInstallationDao")
 public class AppInstallationDaoImpl extends MongoDaoImpl<AppInstallation> implements AppInstallationDao {
-
-	public final static String TABLE_NAME = "AppInstallation";
-	
-	public final static String PROP_PLAY_STORE_URL = "playStoreUrl";
-	public final static String PROP_DEVICE = "device";
-	public final static String PROP_VERSION = "version";
-	public final static String PROP_IP = "ip";
-	public final static String PROP_CREATED_AT = "createdAt";
-	
-	public final static String SUB_ID = ".id";
 	
 	public AppInstallationDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());

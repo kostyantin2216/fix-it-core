@@ -18,6 +18,8 @@ public class StoredProperties {
 	public final static String MAIL_SMTP_HOST = "mail.smtp.host";
 	public final static String MAIL_SMTP_PORT = "mail.smtp.port";
 	
+	public final static String ORDERS_FIRST_ORDER_DISCOUNT = "first.order.discount";
+	
 	public final static String SMS_TWILIO_ACC_SID = "twilio.acc.sid";
 	public final static String SMS_TWILIO_AUTH_TOKEN = "twilio.auth.token";
 	public final static String SMS_ORDER_FROM_TELEPHONE = "order.from.telephone";

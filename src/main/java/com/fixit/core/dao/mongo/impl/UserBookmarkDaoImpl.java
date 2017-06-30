@@ -18,11 +18,6 @@ import com.fixit.core.data.mongo.UserBookmark;
 @Repository("userBookmarkDao")
 public class UserBookmarkDaoImpl extends MongoDaoImpl<UserBookmark> implements UserBookmarkDao {
 
-	public final static String TABLE_NAME = "UserBookmark";
-	
-	public final static String PROP_USER_ID = "userId";
-	public final static String PROP_MAPPINGS = "mappings";
-	
 	@Autowired
 	public UserBookmarkDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());

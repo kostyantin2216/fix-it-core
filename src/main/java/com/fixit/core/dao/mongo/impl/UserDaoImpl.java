@@ -22,15 +22,6 @@ import com.mongodb.client.model.Projections;
 public class UserDaoImpl extends MongoDaoImpl<User>
 		implements UserDao {
 
-	public final static String TABLE_NAME = "User";
-	
-	public final static String PROP_NAME = "name";
-	public final static String PROP_EMAIL = "email";
-	public final static String PROP_TELEPHONE = "telephone";
-	public final static String PROP_USER_AVATER_URL = "userAvatarUrl";
-	public final static String PROP_FACEBOOK_ID = "facebookId";
-	public final static String PROP_GOOGLE_ID = "googleId";
-
 	@Autowired
 	public UserDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());

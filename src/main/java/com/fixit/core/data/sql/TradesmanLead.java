@@ -43,6 +43,8 @@ public class TradesmanLead implements SqlModelObject<Long> {
 	@Column(unique = true)
 	private String email;
 	
+	private boolean emailSent;
+	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createdAt;
 	
@@ -107,6 +109,14 @@ public class TradesmanLead implements SqlModelObject<Long> {
 		this.email = email;
 	}
 	
+	public boolean isEmailSent() {
+		return emailSent;
+	}
+
+	public void setEmailSent(boolean emailSent) {
+		this.emailSent = emailSent;
+	}
+
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -124,8 +134,9 @@ public class TradesmanLead implements SqlModelObject<Long> {
 		sb.append("firstName", firstName);
 		sb.append("lastName", lastName);
 		sb.append("email", email);
+		sb.append("emailSent", emailSent);
 		sb.append("createdAt", createdAt);
-		return sb.toString();
+		return sb.build();
 	}
 
 }

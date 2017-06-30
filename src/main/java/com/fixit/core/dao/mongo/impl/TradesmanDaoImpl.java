@@ -4,11 +4,13 @@ import static com.mongodb.client.model.Filters.all;
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Projections.include;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.bson.Document;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,25 +20,11 @@ import com.fixit.core.dao.mongo.TradesmanDao;
 import com.fixit.core.data.mongo.MapArea;
 import com.fixit.core.data.mongo.Tradesman;
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 
 @Repository("tradesmanDao")
 public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 		implements TradesmanDao {
-
-	public final static String TABLE_NAME = "Tradesman";
-	
-	public final static String PROP_PROFESSION_ID = "professionId";
-	public final static String PROP_NAME = "name";
-	public final static String PROP_EMAIL = "email";
-	public final static String PROP_TELEPHONE = "telephone";
-	public final static String PROP_PASSWORD = "password";
-	public final static String PROP_LOGO_URL = "logoUrl";
-	public final static String PROP_RATING = "rating";
-	public final static String PROP_LAST_KNOWN_LAT = "lastKnownLat";
-	public final static String PROP_LAST_KNOWN_LONG = "lastKnownLong";
-	public final static String PROP_WORKING_AREAS = "workingAreas";
-	public final static String PROP_WORKING_DAYS = "workingDays";
-	public final static String PROP_SUBSCRIPTION_EXPIRY_TIME = "subscriptionExpiryTime";
 	
 	@Autowired
 	public TradesmanDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
@@ -71,6 +59,18 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	@Override
 	public Class<Tradesman> getEntityClass() {
 		return Tradesman.class;
+	}
+
+	@Override
+	public String getTelephoneForTradsman(ObjectId id) {
+		FindIterable<Document> result = mCollection.find(new Document("_id", id))
+												   .projection(include(PROP_TELEPHONE));
+		MongoCursor<Document> cursor = result.iterator();
+		if(cursor.hasNext()) {
+			Document doc = cursor.next();
+			return doc.getString(PROP_TELEPHONE);
+		}
+		return null;
 	}
 
 }

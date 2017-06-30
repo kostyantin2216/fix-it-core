@@ -27,7 +27,8 @@ public class PropertyGroup {
 		sms,
 		mail,
 		web, 
-		forms
+		forms, 
+		orders
 	}
 
 	private final ImmutableMap<String, Object> properties;
@@ -66,39 +67,39 @@ public class PropertyGroup {
 		}
 	}
 	
-	public Boolean getBoolean(String key, Boolean defaultVal) {
+	public Boolean getBoolean(String key, Boolean defaultValue) {
 		try {
-			return (Boolean) properties.get(key);
+			return (Boolean) properties.getOrDefault(key, defaultValue);
 		} catch (ClassCastException e) {
 			handleCCE(key, e);
-			return defaultVal;
+			return defaultValue;
 		}
 	}
 	
-	public String getString(String key, String defaultVal) {
+	public String getString(String key, String defaultValue) {
 		try {
-			return (String) properties.get(key);
+			return (String) properties.getOrDefault(key, defaultValue);
 		} catch (ClassCastException e) {
 			handleCCE(key, e);
-			return defaultVal;
+			return defaultValue;
 		}
 	}
 	
-	public Integer getInteger(String key, Integer defaultVal) {
+	public Integer getInteger(String key, Integer defaultValue) {
 		try {
-			return (Integer) properties.get(key);
+			return (Integer) properties.getOrDefault(key, defaultValue);
 		} catch (ClassCastException e) {
 			handleCCE(key, e);
-			return defaultVal;
+			return defaultValue;
 		}
 	}
 	
-	public Double getDouble(String key, Double defaultVal) {
+	public Double getDouble(String key, Double defaultValue) {
 		try {
-			return (Double) properties.get(key);
+			return (Double) properties.getOrDefault(key, defaultValue);
 		} catch (ClassCastException e) {
 			handleCCE(key, e);
-			return defaultVal;
+			return defaultValue;
 		}
 	}
 	

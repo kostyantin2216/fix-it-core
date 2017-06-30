@@ -26,5 +26,6 @@ public class Constants {
 	
 	// Log tags
 	public final static String LT_TRADESMAN_REGISTRATION = "Tradesman Registration";
+	public final static String LT_SYNCHRONIZATION = "Synchronization";
 
 }

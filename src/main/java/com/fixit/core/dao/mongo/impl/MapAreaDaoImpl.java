@@ -24,13 +24,6 @@ import com.mongodb.client.model.geojson.Position;
 @Repository("mapAreaDao")
 public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 		implements MapAreaDao {
-	
-	public final static String TABLE_NAME = "MapArea";
-	
-	public final static String PROP_PARENT_ID = "parentId";
-	public final static String PROP_NAME = "name";
-	public final static String PROP_TYPE = "type";
-	public final static String PROP_GEOMETRY = "geometry";
 
 	public MapAreaDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());

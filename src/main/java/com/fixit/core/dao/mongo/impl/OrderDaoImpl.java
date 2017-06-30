@@ -12,14 +12,6 @@ import com.fixit.core.data.mongo.Order;
 public class OrderDaoImpl extends MongoDaoImpl<Order> 
 		implements OrderDao {
 
-	public final static String TABLE_NAME = "Job";
-	
-	public final static String PROP_TRADESMAN_ID = "tradesmanId";
-	public final static String PROP_USER_ID = "userId";
-	public final static String PROP_LOCATION = "location";
-	public final static String PROP_COMMENT = "comment";
-	public final static String PROP_PROBLEMS = "problems";
-	
 	@Autowired
 	public OrderDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
