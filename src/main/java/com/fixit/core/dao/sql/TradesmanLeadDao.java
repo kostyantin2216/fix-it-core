@@ -11,4 +11,5 @@ import com.fixit.core.data.sql.TradesmanLead;
  */
 public interface TradesmanLeadDao extends SqlDao<TradesmanLead, Long> {
 	boolean isNewLead(TradesmanLead lead);
+	boolean emailSent(TradesmanLead lead);
 }

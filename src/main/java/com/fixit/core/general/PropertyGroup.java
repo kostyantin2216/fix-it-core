@@ -28,7 +28,8 @@ public class PropertyGroup {
 		mail,
 		web, 
 		forms, 
-		orders
+		orders, 
+		rest
 	}
 
 	private final ImmutableMap<String, Object> properties;

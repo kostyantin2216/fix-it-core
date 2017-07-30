@@ -3,6 +3,7 @@
  */
 package com.fixit.core.dao.sql.impl;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
@@ -28,6 +29,7 @@ public class TradesmanLeadDaoImpl extends SqlDaoImpl<TradesmanLead, Long>
 	public final static String PROP_FIRST_NAME = "firstName";
 	public final static String PROP_LAST_NAME = "lastName";
 	public final static String PROP_EMAIL = "email";
+	public final static String PROP_EMAIL_SENT = "emailSent";
 	public final static String PROP_CREATED_AT = "createdAt";
 	
 	@Override
@@ -41,33 +43,50 @@ public class TradesmanLeadDaoImpl extends SqlDaoImpl<TradesmanLead, Long>
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public boolean isNewLead(TradesmanLead lead) {
-		
-		Long shopifyId = lead.getShopifyId();
-		if(shopifyId != null && shopifyId > 1) {
-			
-			String email = lead.getEmail();
-			if(!StringUtils.isEmpty(email)) {
-				
-				String hqlQuery = "select count(*) from " + TABLE_NAME 
-							   + " where " + PROP_SHOPIFY_ID + " = :" + PROP_SHOPIFY_ID
-							   + " or " + PROP_EMAIL + " = :" + PROP_EMAIL;
-				
-				TypedQuery<Long> query = getSession().createQuery(hqlQuery);				
-				query.setParameter(PROP_SHOPIFY_ID, shopifyId);
-				query.setParameter(PROP_EMAIL, email);
-				
-				boolean isNewLead = query.getSingleResult() == 0;
-				
-				if(!isNewLead) {
-					FILog.w(Constants.LT_TRADESMAN_REGISTRATION, "Lead is already registered: " + lead, true);
-				}
-				
-				return isNewLead;
+		String email = lead.getEmail();
+		if (!StringUtils.isEmpty(email)) {
+
+			String hqlQuery = "select count(*) from " + TABLE_NAME + " where " + PROP_EMAIL + " = :" + PROP_EMAIL;
+
+			TypedQuery<Long> query = getSession().createQuery(hqlQuery, Long.class);
+			query.setParameter(PROP_EMAIL, email);
+
+			boolean isNewLead = query.getSingleResult() == 0;
+
+			if (!isNewLead) {
+				FILog.w(Constants.LT_TRADESMAN_REGISTRATION, "Lead is already registered: " + lead, true);
 			}
+
+			return isNewLead;
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean emailSent(TradesmanLead lead) throws EntityNotFoundException {
+		Long id = lead.getId();
+		String hqlQuery = "select count(*) from " + TABLE_NAME 
+				+ " where " + PROP_EMAIL_SENT + " = :" + PROP_EMAIL_SENT 
+				+ " and ";
+		TypedQuery<Long> query;
+		if(id != null) {
+			hqlQuery += PROP_ID + " = :" + PROP_ID;
+			query = getSession().createQuery(hqlQuery, Long.class);
+			query.setParameter(PROP_ID, id);
+		} else {
+			String email = lead.getEmail();
+			if(!StringUtils.isEmpty(email)) {
+				hqlQuery = PROP_EMAIL + " = :" + PROP_EMAIL;
+				query = getSession().createQuery(hqlQuery, Long.class);
+				query.setParameter(PROP_EMAIL, email);
+			} else {
+				throw new EntityNotFoundException();
+			}
+		}
+		query.setParameter(PROP_EMAIL_SENT, true);
+		
+		return query.getSingleResult() == 0;
 	}
 
 }

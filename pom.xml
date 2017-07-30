@@ -2,7 +2,7 @@
   	<modelVersion>4.0.0</modelVersion>
   	<groupId>com.fix-it</groupId>
   	<artifactId>fix-it-core</artifactId>
-  	<version>0.0.1-SNAPSHOT</version>
+  	<version>0.0.1</version>
   	<name>Fix It Core</name>
   	<description>The model layer of fix it</description>
   

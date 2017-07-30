@@ -29,6 +29,17 @@ public class FileManager {
 		this.storedPropertyDao = storedPropertyDao;
 	}
 	
+	public String storeTradesmanFeatureImage(String tradesmanId, String fileExtension, InputStream sourceInputStream) throws IOException {
+		PropertyGroup properties = storedPropertyDao.getPropertyGroup(Group.web);
+		
+		String uploadsDir = properties.getString(StoredProperties.WEB_DIR_UPLOADS, null);
+		String logosDir = properties.getString(StoredProperties.WEB_DIR_TRADESMAN_FEATURE_IMAGE, null);
+		
+		storeFile(sourceInputStream, uploadsDir + logosDir + tradesmanId + fileExtension);
+		
+		return null;
+	}
+	
 	public String storeTradesmanLogo(String tradesmanId, String fileExtension, InputStream sourceInputStream) throws IOException {
 		PropertyGroup properties = storedPropertyDao.getPropertyGroup(Group.web);
 		

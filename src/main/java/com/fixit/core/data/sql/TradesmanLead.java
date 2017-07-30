@@ -24,8 +24,8 @@ import com.fixit.eclipse.utils.JsonToStringBuilder;
 @Table(name = "TradesmanLead")
 public class TradesmanLead implements SqlModelObject<Long> {
 	
-	public static TradesmanLead newLead(Long shopifyId, String firstName, String lastName, String email) {
-		return new TradesmanLead(shopifyId, null, firstName, lastName, email, new Date());
+	public static TradesmanLead newLead(String firstName, String lastName, String email) {
+		return new TradesmanLead(0L, null, firstName, lastName, email, new Date());
 	}
 	
 	@Id

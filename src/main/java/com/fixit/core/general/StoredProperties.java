@@ -26,6 +26,8 @@ public class StoredProperties {
 	
 	public final static String WEB_DIR_UPLOADS = "dir.uploads";
 	public final static String WEB_DIR_TRADESMAN_LOGO = "dir.tradesman.logo";
+	public final static String WEB_DIR_TRADESMAN_FEATURE_IMAGE = "dir.tradesman.feature.image";
 	
+	public final static String REST_PUBLIC_PATHS = "public.paths";
 	
 }

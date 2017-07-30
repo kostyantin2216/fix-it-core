@@ -14,6 +14,7 @@ public class Constants {
 	
 	// View arguments
 	public final static String ARG_ERROR = "error";
+	public final static String ARG_SUCCESS_MESSAGE = "successMessage";
 	public final static String ARG_FORM = "form";
 	public final static String ARG_TRADESMAN_LEAD_ID = "tradesmanLeadId";
 	public final static String ARG_BASE_API_URL = "baseApiUrl";
