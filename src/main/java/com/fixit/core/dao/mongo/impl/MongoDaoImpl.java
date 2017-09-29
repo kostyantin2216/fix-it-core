@@ -23,6 +23,7 @@ import com.fixit.core.data.mongo.MongoModelObject;
 import com.fixit.core.exceptions.IllegalQueryPropertyException;
 import com.fixit.core.logging.FILog;
 import com.google.gson.Gson;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.model.Filters;
@@ -45,17 +46,23 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	public void save(E entity) {
 		Document insertDoc = Document.parse(mGson.toJson(entity));
 		mCollection.insertOne(insertDoc);
-		entity.set_id(insertDoc.getObjectId("_id"));
+		entity.set_id(insertDoc.getObjectId(PROP_ID));
 	}
 
 	@Override
 	public void update(E entity) {
-		mCollection.insertOne(Document.parse(mGson.toJson(entity)));
+		ObjectId id = entity.get_id();
+		entity.set_id(null);
+		mCollection.updateOne(
+				eq(PROP_ID, id), 
+				new Document("$set", Document.parse(mGson.toJson(entity)))
+		);
+		entity.set_id(id);
 	}
 
 	@Override
 	public void delete(ObjectId id) {
-		mCollection.deleteOne(eq("_id", id));
+		mCollection.deleteOne(eq(PROP_ID, id));
 	}
 	
 	@Override
@@ -65,7 +72,7 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 
 	@Override
 	public E findById(ObjectId id) {
-		MongoCursor<Document> cursor = mCollection.find(new Document("_id", id)).iterator();
+		MongoCursor<Document> cursor = mCollection.find(new Document(PROP_ID, id)).iterator();
 		if(cursor != null) {
 			try {
 				if(cursor.hasNext()) {
@@ -106,7 +113,8 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 
 	@Override
 	public List<E> findByProperty(String property, Object value) {
-		return convertToList(mCollection.find(eq(property, value)).iterator());
+		FindIterable<Document> result = mCollection.find(eq(property, value));
+		return convertToList(result.iterator());
 	}
 
 	@Override

@@ -17,5 +17,6 @@ import com.fixit.core.data.mongo.MongoModelObject;
  */
 public interface MongoDao<DMO extends MongoModelObject> extends CommonDao<DMO, ObjectId> {
 	public final static String PROP_ID = "_id";
+	
 	List<DMO> find(Bson bsonFilter);
 }

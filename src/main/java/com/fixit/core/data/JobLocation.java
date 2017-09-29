@@ -16,9 +16,10 @@ public class JobLocation {
 	private double lng;
 	private ObjectId mapAreaId;
 	private String comment;
+    private String googleAddress;
 	
 	public JobLocation(String province, String city, String neighborhood, String street, String zipCode, int streetNum,
-			int apartmentNum, int floorNum, double lat, double lng, ObjectId mapAreaId, String comment) {
+			int apartmentNum, int floorNum, double lat, double lng, ObjectId mapAreaId, String comment, String googleAddress) {
 		this.province = province;
 		this.city = city;
 		this.neighborhood = neighborhood;
@@ -31,6 +32,7 @@ public class JobLocation {
 		this.lng = lng;
 		this.mapAreaId = mapAreaId;
 		this.comment = comment;
+		this.googleAddress = googleAddress;
 	}
 	
 	public String getProvince() {
@@ -129,7 +131,15 @@ public class JobLocation {
 		this.comment = comment;
 	}
 	
-	public String toReadableAddress() {
+	public String getGoogleAddress() {
+		return googleAddress;
+	}
+
+	public void setGoogleAddress(String googleAddress) {
+		this.googleAddress = googleAddress;
+	}
+
+	public String toReadableAddress(boolean includeProvince) {
 		StringBuilder sb = new StringBuilder();
 		
 		if(apartmentNum > -1) {
@@ -142,8 +152,11 @@ public class JobLocation {
 		
 		sb.append(street).append(" ")
 		  .append(neighborhood).append(", ")
-		  .append(city).append(", ")
-		  .append(province);
+		  .append(city);
+		
+		if(includeProvince) {
+			sb.append(", ").append(province);
+		}
 		
 		return sb.toString();
 	}
@@ -153,7 +166,7 @@ public class JobLocation {
 		return "JobLocation [province=" + province + ", city=" + city + ", neighborhood=" + neighborhood + ", street="
 				+ street + ", zipCode=" + zipCode + ", streetNum=" + streetNum + ", apartmentNum=" + apartmentNum
 				+ ", floorNum=" + floorNum + ", lat=" + lat + ", lng=" + lng + ", mapAreaId=" + mapAreaId + ", comment="
-				+ comment + "]";
+				+ comment + ", googleAddress=" + googleAddress + "]";
 	}
 	
 }

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fixit.core.utils.CommonUtils;
+import com.fixit.core.utils.Formatter;
 
 /**
  * @author 		Kostyantin
@@ -103,8 +103,8 @@ public class StoredProperty implements SqlModelObject<StoredProperty.StoredPrope
 			return Type.BOOLEAN;
 		}
 		
-		if(CommonUtils.isNumeric(value)) {
-			if(CommonUtils.isInteger(value)) {
+		if(Formatter.isNumeric(value)) {
+			if(Formatter.isInteger(value)) {
 				return Type.INTEGER;
 			} else {
 				return Type.DOUBLE;

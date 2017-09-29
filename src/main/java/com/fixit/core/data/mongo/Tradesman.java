@@ -12,13 +12,14 @@ public class Tradesman implements MongoModelObject {
 
 	private ObjectId _id;
 	private long leadId;
-	private int professionId;
+	private int[] professions;
 	private String contactName;
 	private String companyName;
 	private String email;
 	private String telephone;
 	private String password;
 	private String logoUrl;
+	private String featureImageUrl;
 	private float rating;
 	private MutableLatLng lastKnownLocation;
 	private ObjectId[] workingAreas;
@@ -43,12 +44,12 @@ public class Tradesman implements MongoModelObject {
 		this.leadId = leadId;
 	}
 
-	public int getProfessionId() {
-		return professionId;
+	public int[] getProfessions() {
+		return professions;
 	}
 
-	public void setProfessionId(int professionId) {
-		this.professionId = professionId;
+	public void setProfessions(int[] professions) {
+		this.professions = professions;
 	}
 
 	public String getContactName() {
@@ -99,6 +100,14 @@ public class Tradesman implements MongoModelObject {
 		this.logoUrl = logoUrl;
 	}
 
+	public String getFeatureImageUrl() {
+		return featureImageUrl;
+	}
+
+	public void setFeatureImageUrl(String featureImageUrl) {
+		this.featureImageUrl = featureImageUrl;
+	}
+
 	public float getRating() {
 		return rating;
 	}
@@ -138,15 +147,15 @@ public class Tradesman implements MongoModelObject {
 	public void setSubscriptionExpiryTime(Date subscriptionExpiryTime) {
 		this.subscriptionExpiryTime = subscriptionExpiryTime;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Tradesman [_id=" + _id + ", professionId=" + professionId
-				+ ", contactName=" + contactName + ", companyName=" + companyName + ", email=" + email + ", telephone="
-				+ telephone + ", password=" + password + ", logoUrl=" + logoUrl + ", rating=" + rating
-				+ ", lastKnownLocation=" + lastKnownLocation + ", workingAreas=" + Arrays.toString(workingAreas)
-				+ ", workingDays=" + Arrays.toString(workingDays) + ", subscriptionExpiryTime=" + subscriptionExpiryTime
-				+ "]";
+		return "Tradesman [_id=" + _id + ", leadId=" + leadId + ", professions=" + professions + ", contactName="
+				+ contactName + ", companyName=" + companyName + ", email=" + email + ", telephone=" + telephone
+				+ ", password=" + password + ", logoUrl=" + logoUrl + ", featureImageUrl=" + featureImageUrl
+				+ ", rating=" + rating + ", lastKnownLocation=" + lastKnownLocation + ", workingAreas="
+				+ Arrays.toString(workingAreas) + ", workingDays=" + Arrays.toString(workingDays)
+				+ ", subscriptionExpiryTime=" + subscriptionExpiryTime + "]";
 	}
 	
 }

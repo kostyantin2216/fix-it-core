@@ -5,7 +5,7 @@ import org.bson.types.ObjectId;
 import com.fixit.core.config.json.ObjectIdTypeAdatper;
 import com.fixit.core.dao.mongo.impl.MongoDaoImpl;
 import com.fixit.core.logging.FILog;
-import com.fixit.core.utils.DateUtils;
+import com.fixit.core.utils.Formatter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,7 +38,7 @@ public class GsonManager {
 	public GsonBuilder getRestResourceGsonBuilder() {
 		FILog.i("creating rest resource gson");
 		return new GsonBuilder()
-				.setDateFormat(DateUtils.FORMAT_REST_DATE)
+				.setDateFormat(Formatter.FORMAT_REST_DATE)
 				.registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdatper())
                 .enableComplexMapKeySerialization();
 	}

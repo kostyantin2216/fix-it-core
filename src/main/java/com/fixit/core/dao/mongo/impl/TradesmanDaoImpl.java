@@ -2,7 +2,6 @@ package com.fixit.core.dao.mongo.impl;
 
 import static com.mongodb.client.model.Filters.all;
 import static com.mongodb.client.model.Filters.and;
-import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.Filters.in;
 import static com.mongodb.client.model.Projections.include;
 
@@ -43,8 +42,8 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	@Override
 	public List<Tradesman> getTradesmenForArea(int professionId, MapArea area) {
 		FindIterable<Document> result = mCollection.find(and(
-					in(PROP_WORKING_AREAS, Arrays.asList(area.get_id().toString())),
-					eq(PROP_PROFESSION_ID, professionId)
+					in(PROP_WORKING_AREAS, Arrays.asList(area.get_id().toHexString())),
+					in(PROP_PROFESSIONS, professionId)
 				)
 		);
 		

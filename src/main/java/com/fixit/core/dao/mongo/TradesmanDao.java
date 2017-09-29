@@ -17,7 +17,7 @@ import com.fixit.core.data.mongo.Tradesman;
 public interface TradesmanDao extends MongoDao<Tradesman> {
 	public final static String TABLE_NAME = "Tradesman";
 	
-	public final static String PROP_PROFESSION_ID = "professionId";
+	public final static String PROP_PROFESSIONS = "professions";
 	public final static String PROP_LEAD_ID = "leadId";
 	public final static String PROP_NAME = "name";
 	public final static String PROP_EMAIL = "email";

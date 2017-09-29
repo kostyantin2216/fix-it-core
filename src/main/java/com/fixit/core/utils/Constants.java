@@ -21,6 +21,7 @@ public class Constants {
 	public final static String ARG_INITIAL_MAP_AREA_TYPE = "initialMapAreaType";
 	public final static String ARG_AUTHORIZATION_TOKEN = "authorizationToken";
 	public final static String ARG_PROFESSIONS = "professions";
+	public final static String ARG_FEATURE_IMAGES = "featureImages";
 	
 	// Views
 	public final static String VIEW_TRADESMAN_REGISTRATION = "tradesman-registration";

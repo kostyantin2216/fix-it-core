@@ -3,7 +3,11 @@
  */
 package com.fixit.core.dao.mongo.impl;
 
-import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Filters.and;
+import static com.mongodb.client.model.Filters.gt;
+import static com.mongodb.client.model.Filters.gte;
+import static com.mongodb.client.model.Filters.lt;
+import static com.mongodb.client.model.Filters.lte;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +16,7 @@ import org.bson.Document;
 
 import com.fixit.core.dao.mongo.UpdateDateMongoDao;
 import com.fixit.core.data.mongo.UpdateDateMongoModelObject;
-import com.fixit.core.utils.DateUtils;
+import com.fixit.core.utils.Formatter;
 import com.google.gson.Gson;
 import com.mongodb.client.MongoCollection;
 
@@ -50,8 +54,8 @@ public abstract class UpdateDateMongoDaoImpl<DMO extends UpdateDateMongoModelObj
 		return convertToList(
 				mCollection
 				.find(and(
-						gte(getUpdatePropertyName(), DateUtils.getStartOfDay(now)), 
-						lte(getUpdatePropertyName(), DateUtils.getEndOfDay(now))
+						gte(getUpdatePropertyName(), Formatter.getStartOfDay(now)), 
+						lte(getUpdatePropertyName(), Formatter.getEndOfDay(now))
 				))
 				.iterator()
 		);

@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 
 import com.fixit.core.dao.sql.UpdateDateSqlDao;
 import com.fixit.core.data.sql.UpdateDateSqlModelObject;
-import com.fixit.core.utils.DateUtils;
+import com.fixit.core.utils.Formatter;
 
 /**
  * @author 		Kostyantin
@@ -47,8 +47,8 @@ public abstract class UpdateDateSqlDaoImpl<DMO extends UpdateDateSqlModelObject<
 		Date now = new Date();
 		return getSession()
 			.createQuery(queryStr, getEntityClass())
-			.setParameter(":fromDate", DateUtils.getStartOfDay(now), TemporalType.TIMESTAMP)
-			.setParameter(":toDate", DateUtils.getEndOfDay(now), TemporalType.TIMESTAMP)
+			.setParameter(":fromDate", Formatter.getStartOfDay(now), TemporalType.TIMESTAMP)
+			.setParameter(":toDate", Formatter.getEndOfDay(now), TemporalType.TIMESTAMP)
 			.getResultList();
 	}
 	

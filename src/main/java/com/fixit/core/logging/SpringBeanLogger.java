@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author 		Kostyantin
  * @createdAt 	2017/04/15 21:56:33 GMT+3
  */
-@Component
+//@Component
 public class SpringBeanLogger implements BeanPostProcessor {
 
 	@Override
@@ -21,7 +21,7 @@ public class SpringBeanLogger implements BeanPostProcessor {
 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		FILog.i("Created bean " + beanName + " for class " + bean.getClass().getName());
+	//	FILog.i("Created bean " + beanName + " for class " + bean.getClass().getName());
 		return bean;
 	}
 

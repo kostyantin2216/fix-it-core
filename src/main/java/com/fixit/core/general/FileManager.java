@@ -32,23 +32,32 @@ public class FileManager {
 	public String storeTradesmanFeatureImage(String tradesmanId, String fileExtension, InputStream sourceInputStream) throws IOException {
 		PropertyGroup properties = storedPropertyDao.getPropertyGroup(Group.web);
 		
-		String uploadsDir = properties.getString(StoredProperties.WEB_DIR_UPLOADS, null);
-		String logosDir = properties.getString(StoredProperties.WEB_DIR_TRADESMAN_FEATURE_IMAGE, null);
+		String directoryRoot = properties.getString(StoredProperties.WEB_DIR_DIRECTORY_ROOT, null);
+		String pathImages = properties.getString(StoredProperties.WEB_PATH_IMAGES, null);
+		String pathFeatureImages = properties.getString(StoredProperties.WEB_PATH_TRADESMAN_FEATURE_IMAGE, null);
 		
-		storeFile(sourceInputStream, uploadsDir + logosDir + tradesmanId + fileExtension);
+		String filePath = pathImages + pathFeatureImages + tradesmanId + fileExtension;
+		storeFile(sourceInputStream, directoryRoot + filePath);
 		
-		return null;
+		return transformToHostedPath(properties, filePath);
 	}
 	
 	public String storeTradesmanLogo(String tradesmanId, String fileExtension, InputStream sourceInputStream) throws IOException {
 		PropertyGroup properties = storedPropertyDao.getPropertyGroup(Group.web);
 		
-		String uploadsDir = properties.getString(StoredProperties.WEB_DIR_UPLOADS, null);
-		String logosDir = properties.getString(StoredProperties.WEB_DIR_TRADESMAN_LOGO, null);
+		String directoryRoot = properties.getString(StoredProperties.WEB_DIR_DIRECTORY_ROOT, null);
+		String pathImages = properties.getString(StoredProperties.WEB_PATH_IMAGES, null);
+		String pathLogos = properties.getString(StoredProperties.WEB_PATH_TRADESMAN_LOGO, null);
+	
+		String filePath = pathImages + pathLogos + tradesmanId + fileExtension;
+		storeFile(sourceInputStream, directoryRoot + filePath);
 		
-		storeFile(sourceInputStream, uploadsDir + logosDir + tradesmanId + fileExtension);
-		
-		return null;
+		return transformToHostedPath(properties, filePath);
+	}
+	
+	private String transformToHostedPath(PropertyGroup properties, String filePath) {
+		String fileHost = properties.getString(StoredProperties.WEB_URL_FILE_HOST, null);
+		return fileHost + filePath.replace("\\", "/");
 	}
 	
 	private void storeFile(InputStream sourceInputStream, String outputPath) throws IOException {

@@ -34,7 +34,7 @@ public class TradesmanLead implements SqlModelObject<Long> {
 	
 	private Long shopifyId;
 	
-	private Long tradesmanId;
+	private String tradesmanId;
 	
 	private String firstName;
 	
@@ -50,7 +50,7 @@ public class TradesmanLead implements SqlModelObject<Long> {
 	
 	public TradesmanLead() { }
 
-	private TradesmanLead(Long shopifyId, Long tradesmanId, String firstName, String lastName, String email, Date createdAt) {
+	private TradesmanLead(Long shopifyId, String tradesmanId, String firstName, String lastName, String email, Date createdAt) {
 		this.shopifyId = shopifyId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -77,11 +77,11 @@ public class TradesmanLead implements SqlModelObject<Long> {
 		this.shopifyId = shopifyId;
 	}
 
-	public Long getTradesmanId() {
+	public String getTradesmanId() {
 		return tradesmanId;
 	}
 
-	public void setTradesmanId(Long tradesmanId) {
+	public void setTradesmanId(String tradesmanId) {
 		this.tradesmanId = tradesmanId;
 	}
 
