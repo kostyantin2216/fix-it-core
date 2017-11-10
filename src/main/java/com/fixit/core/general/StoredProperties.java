@@ -9,6 +9,9 @@ package com.fixit.core.general;
  */
 public class StoredProperties {
 
+	public final static String EVENTS_NOTIFY_ADDRESSES = "notify.addresses";
+	public final static String EVENTS_NOTIFY_DATE_FORMAT = "notify.date.format";
+
 	public final static String FORMS_DEF_TRADESMAN_SHEDULE = "default.tradesman.schedule";
 
 	public final static String MAIL_USERNAME = "username";
@@ -19,6 +22,7 @@ public class StoredProperties {
 	public final static String MAIL_SMTP_PORT = "mail.smtp.port";
 	
 	public final static String ORDERS_FIRST_ORDER_DISCOUNT = "first.order.discount";
+	public final static String ORDERS_MAX_QUICK_ORDER_TRADESMEN = "max.quick.order.tradesmen";
 	
 	public final static String SMS_TWILIO_ACC_SID = "twilio.acc.sid";
 	public final static String SMS_TWILIO_AUTH_TOKEN = "twilio.auth.token";

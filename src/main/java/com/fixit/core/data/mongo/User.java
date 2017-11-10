@@ -2,10 +2,14 @@ package com.fixit.core.data.mongo;
 
 import java.util.Date;
 
+import javax.persistence.Transient;
+
 import org.bson.types.ObjectId;
 import org.springframework.util.StringUtils;
 
-public class User implements MongoModelObject {
+import com.fixit.core.dao.UserType;
+
+public class User implements CommonUser {
 	
 	private ObjectId _id;
 	private String name;
@@ -42,6 +46,12 @@ public class User implements MongoModelObject {
 		}
 		
 		return updated;
+	}
+	
+	@Override
+	@Transient
+	public UserType getType() {
+		return UserType.REGULAR;
 	}
 
 	@Override

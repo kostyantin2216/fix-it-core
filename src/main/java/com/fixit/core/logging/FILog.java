@@ -27,6 +27,10 @@ public class FILog {
 		log(null, Level.SEVERE, msg, null, false);
 	}
 	
+	public static void e(String tag, String msg) {
+		log(tag, Level.SEVERE, msg, null, false);
+	}
+	
 	public static void e(String msg, Throwable throwable) {
 		log(null, Level.SEVERE, msg, throwable, false);
 	}

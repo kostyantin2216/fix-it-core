@@ -8,18 +8,18 @@ import org.springframework.stereotype.Repository;
 
 import com.fixit.core.config.GsonManager;
 import com.fixit.core.config.MongoClientManager;
-import com.fixit.core.dao.mongo.AppLogDao;
-import com.fixit.core.data.mongo.AppLog;
+import com.fixit.core.dao.mongo.TempUserDao;
+import com.fixit.core.data.mongo.TempUser;
 
 /**
  * @author 		Kostyantin
- * @createdAt 	2016/12/16 21:04:06 GMT+2
+ * @createdAt 	2017/11/10 23:54:06 GMT+2
  */
-@Repository("appLogDao")
-public class AppLogDaoImpl extends MongoDaoImpl<AppLog> implements AppLogDao {
-	
+@Repository("tempUserDao")
+public class TempUserDaoImpl extends MongoDaoImpl<TempUser> implements TempUserDao {
+
 	@Autowired
-	public AppLogDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
+	public TempUserDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
 	}
 	
@@ -29,8 +29,8 @@ public class AppLogDaoImpl extends MongoDaoImpl<AppLog> implements AppLogDao {
 	}
 
 	@Override
-	public Class<AppLog> getEntityClass() {
-		return AppLog.class;
+	public Class<TempUser> getEntityClass() {
+		return TempUser.class;
 	}
 
 }

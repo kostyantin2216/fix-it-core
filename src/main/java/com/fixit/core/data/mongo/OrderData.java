@@ -6,6 +6,7 @@ import java.util.Date;
 import org.bson.types.ObjectId;
 
 import com.fixit.core.data.JobLocation;
+import com.fixit.core.data.OrderType;
 
 public class OrderData implements MongoModelObject {
 	
@@ -17,11 +18,12 @@ public class OrderData implements MongoModelObject {
 	private int[] jobReasons;
 	private String comment;
 	private boolean feedbackProvided;
+	private OrderType orderType;
 	private Date createdAt;
 	
 	public OrderData() { }
 	
-	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, Date createdAt){
+	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, OrderType orderType, Date createdAt){
 		this.tradesmen = tradesmen;
 		this.userId = userId;
 		this.professionId = professionId;
@@ -29,6 +31,7 @@ public class OrderData implements MongoModelObject {
 		this.jobReasons = jobReasons;
 		this.comment = comment;
 		this.feedbackProvided = feedbackProvided;
+		this.orderType = orderType;
 		this.createdAt = createdAt;
 	}
 	
@@ -88,6 +91,22 @@ public class OrderData implements MongoModelObject {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	
+	public boolean isFeedbackProvided() {
+		return feedbackProvided;
+	}
+
+	public void setFeedbackProvided(boolean feedbackProvided) {
+		this.feedbackProvided = feedbackProvided;
+	}
+
+	public OrderType getOrderType() {
+		return orderType;
+	}
+
+	public void setOrderType(OrderType orderType) {
+		this.orderType = orderType;
 	}
 
 	public Date getCreatedAt() {

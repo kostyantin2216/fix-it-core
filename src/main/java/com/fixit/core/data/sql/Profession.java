@@ -20,6 +20,8 @@ public class Profession implements UpdateDateSqlModelObject<Integer> {
 	
 	private String name;
 	
+	private String namePlural;
+	
 	private String description;
 	
 	private String imageUrl;
@@ -31,8 +33,9 @@ public class Profession implements UpdateDateSqlModelObject<Integer> {
 	
 	public Profession() { }
 	
-	public Profession(String name, String description, String imageUrl) {
+	public Profession(String name, String namePlural, String description, String imageUrl) {
 		this.name = name;
+		this.namePlural = namePlural;
 		this.description = description;
 		this.imageUrl = imageUrl;
 		this.updatedAt = new Date();
@@ -54,6 +57,14 @@ public class Profession implements UpdateDateSqlModelObject<Integer> {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getNamePlural() {
+		return namePlural;
+	}
+
+	public void setNamePlural(String namePlural) {
+		this.namePlural = namePlural;
 	}
 
 	public String getDescription() {
@@ -90,8 +101,8 @@ public class Profession implements UpdateDateSqlModelObject<Integer> {
 
 	@Override
 	public String toString() {
-		return "Profession [id=" + id + ", name=" + name + ", description=" + description + ", imageUrl=" + imageUrl
-				+ ", isActive=" + isActive + ", updatedAt=" + updatedAt + "]";
+		return "Profession [id=" + id + ", name=" + name + ", namePlural=" + namePlural + ", description=" + description
+				+ ", imageUrl=" + imageUrl + ", isActive=" + isActive + ", updatedAt=" + updatedAt + "]";
 	}
 	
 }

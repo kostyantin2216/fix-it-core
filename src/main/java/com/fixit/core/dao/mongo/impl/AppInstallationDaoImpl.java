@@ -7,6 +7,7 @@ import static com.mongodb.client.model.Filters.eq;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fixit.core.config.GsonManager;
@@ -21,6 +22,7 @@ import com.fixit.core.data.mongo.AppInstallation;
 @Repository("appInstallationDao")
 public class AppInstallationDaoImpl extends MongoDaoImpl<AppInstallation> implements AppInstallationDao {
 	
+	@Autowired
 	public AppInstallationDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
 	}

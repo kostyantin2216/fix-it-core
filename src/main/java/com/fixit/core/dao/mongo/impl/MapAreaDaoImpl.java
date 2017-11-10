@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.bson.Document;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.fixit.core.config.GsonManager;
@@ -25,6 +26,7 @@ import com.mongodb.client.model.geojson.Position;
 public class MapAreaDaoImpl extends MongoDaoImpl<MapArea>
 		implements MapAreaDao {
 
+	@Autowired
 	public MapAreaDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
 	}

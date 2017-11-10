@@ -24,6 +24,7 @@ public class PropertyGroup {
 	private final static String LOG_TAG = PropertyGroup.class.getSimpleName();
 	
 	public enum Group {
+		events,
 		sms,
 		mail,
 		web, 

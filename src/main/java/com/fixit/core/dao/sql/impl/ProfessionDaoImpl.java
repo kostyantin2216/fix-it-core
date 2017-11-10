@@ -26,6 +26,11 @@ public class ProfessionDaoImpl extends UpdateDateSqlDaoImpl<Profession, Integer>
 	}	
 	
 	@Override
+	public Profession findByName(String name) {
+		return findOneByProperty(PROP_NAME, name);
+	}
+	
+	@Override
 	public String getTableName() {
 		return TABLE_NAME;
 	}

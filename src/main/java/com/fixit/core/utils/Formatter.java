@@ -116,7 +116,7 @@ public class Formatter {
 	        hours = 0;
 	        minutes = time;
 	    } else {
-	        return -1;
+	        return 0;
 	    }
 
 	    return Integer.parseInt(hours

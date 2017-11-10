@@ -1,6 +1,7 @@
 package com.fixit.core.data.mongo;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 import org.bson.types.ObjectId;
@@ -9,6 +10,8 @@ import com.fixit.core.data.MutableLatLng;
 import com.fixit.core.data.WorkingDay;
 
 public class Tradesman implements MongoModelObject {
+	
+	public static Comparator<Tradesman> PRIORITY_COMPARATOR = (e1, e2) -> e2.getPriority() - e1.getPriority();
 
 	private ObjectId _id;
 	private long leadId;
@@ -24,6 +27,8 @@ public class Tradesman implements MongoModelObject {
 	private MutableLatLng lastKnownLocation;
 	private ObjectId[] workingAreas;
 	private WorkingDay[] workingDays;
+	private boolean active;
+	private int priority;
 	private Date subscriptionExpiryTime;
 	
 	public Tradesman() { }
@@ -139,6 +144,22 @@ public class Tradesman implements MongoModelObject {
 	public void setWorkingDays(WorkingDay[] workingDays) {
 		this.workingDays = workingDays;
 	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean isActive) {
+		this.active = isActive;
+	}
+	
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
+	}
 
 	public Date getSubscriptionExpiryTime() {
 		return subscriptionExpiryTime;
@@ -150,12 +171,12 @@ public class Tradesman implements MongoModelObject {
 
 	@Override
 	public String toString() {
-		return "Tradesman [_id=" + _id + ", leadId=" + leadId + ", professions=" + professions + ", contactName="
-				+ contactName + ", companyName=" + companyName + ", email=" + email + ", telephone=" + telephone
-				+ ", password=" + password + ", logoUrl=" + logoUrl + ", featureImageUrl=" + featureImageUrl
+		return "Tradesman [_id=" + _id + ", leadId=" + leadId + ", professions=" + Arrays.toString(professions)
+				+ ", contactName=" + contactName + ", companyName=" + companyName + ", email=" + email + ", telephone="
+				+ telephone + ", password=" + password + ", logoUrl=" + logoUrl + ", featureImageUrl=" + featureImageUrl
 				+ ", rating=" + rating + ", lastKnownLocation=" + lastKnownLocation + ", workingAreas="
-				+ Arrays.toString(workingAreas) + ", workingDays=" + Arrays.toString(workingDays)
-				+ ", subscriptionExpiryTime=" + subscriptionExpiryTime + "]";
+				+ Arrays.toString(workingAreas) + ", workingDays=" + Arrays.toString(workingDays) + ", active=" + active
+				+ ", priority=" + priority + ", subscriptionExpiryTime=" + subscriptionExpiryTime + "]";
 	}
 	
 }

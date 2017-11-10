@@ -2,7 +2,31 @@ package com.fixit.core.data;
 
 import org.bson.types.ObjectId;
 
+import com.fixit.core.utils.Formatter;
+
 public class JobLocation {
+	
+	public static JobLocation create(Address address) {
+        JobLocation jobLocation = new JobLocation();
+        jobLocation.setStreet(address.getThoroughfare());
+        String streetNum = address.getSubThoroughfare();
+        if(!Formatter.isInteger(streetNum)) {
+            streetNum = address.getFeatureName();
+        }
+        if(Formatter.isInteger(streetNum)) {
+            jobLocation.setStreetNum(Integer.parseInt(streetNum));
+        }
+        jobLocation.setCity(address.getLocality());
+        jobLocation.setNeighborhood(address.getSubLocality());
+        jobLocation.setProvince(address.getAdminArea());
+        jobLocation.setZipCode(address.getPostalCode());
+        jobLocation.setLat(address.getLatitude());
+        jobLocation.setLng(address.getLongitude());
+        jobLocation.setGoogleAddress(address.getAddressLine());
+        jobLocation.setFloorNum(-1);
+        jobLocation.setApartmentNum(-1);
+        return jobLocation;
+    }
 
 	private String province;
 	private String city;
@@ -17,6 +41,8 @@ public class JobLocation {
 	private ObjectId mapAreaId;
 	private String comment;
     private String googleAddress;
+    
+    public JobLocation() { }
 	
 	public JobLocation(String province, String city, String neighborhood, String street, String zipCode, int streetNum,
 			int apartmentNum, int floorNum, double lat, double lng, ObjectId mapAreaId, String comment, String googleAddress) {
