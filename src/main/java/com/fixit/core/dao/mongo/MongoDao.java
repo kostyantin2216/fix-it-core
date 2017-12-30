@@ -19,4 +19,7 @@ public interface MongoDao<DMO extends MongoModelObject> extends CommonDao<DMO, O
 	public final static String PROP_ID = "_id";
 	
 	List<DMO> find(Bson bsonFilter);
+	List<DMO> findByStartingWith(String property, String value);
+	
+	void deleteMany(List<DMO> entities);
 }

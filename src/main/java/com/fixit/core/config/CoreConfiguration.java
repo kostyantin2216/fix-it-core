@@ -35,12 +35,6 @@ public class CoreConfiguration {
 	}
 	
 	@Bean
-	public GsonManager gsonManager() {
-		FILog.i("creating gson manager");
-		return new GsonManager();
-	}
-	
-	@Bean
 	@Autowired
 	public SimpleMessageSender simpleMessageSender(StoredPropertyDao dao) {
 		FILog.i("creating simple message sender");

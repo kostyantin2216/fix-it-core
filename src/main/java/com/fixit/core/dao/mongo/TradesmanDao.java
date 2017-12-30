@@ -24,6 +24,7 @@ public interface TradesmanDao extends MongoDao<Tradesman> {
 	public final static String PROP_TELEPHONE = "telephone";
 	public final static String PROP_PASSWORD = "password";
 	public final static String PROP_LOGO_URL = "logoUrl";
+	public final static String PROP_FEATURE_IMAGE_URL = "featureImageUrl";
 	public final static String PROP_RATING = "rating";
 	public final static String PROP_LAST_KNOWN_LAT = "lastKnownLat";
 	public final static String PROP_LAST_KNOWN_LONG = "lastKnownLong";
@@ -31,7 +32,8 @@ public interface TradesmanDao extends MongoDao<Tradesman> {
 	public final static String PROP_WORKING_DAYS = "workingDays";
 	public final static String PROP_SUBSCRIPTION_EXPIRY_TIME = "subscriptionExpiryTime";
 	
-	List<Tradesman> getTradesmenForArea(MapArea area);
-	List<Tradesman> getTradesmenForArea(int professionId, MapArea area);
+	List<Tradesman> findTradesmenForArea(MapArea area);
+	List<Tradesman> findTradesmenForArea(int professionId, MapArea area);
+	List<Tradesman> findTradesmenForProfession(int professionId);
 	String getTelephoneForTradsman(ObjectId id);
 }

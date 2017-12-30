@@ -1,12 +1,17 @@
 package com.fixit.core.data.mongo;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Date;
+
+import javax.persistence.Transient;
 
 import org.bson.types.ObjectId;
 
 import com.fixit.core.data.JobLocation;
 import com.fixit.core.data.OrderType;
+import com.fixit.core.data.UserType;
+import com.fixit.core.utils.Formatter;
 
 public class OrderData implements MongoModelObject {
 	
@@ -18,12 +23,15 @@ public class OrderData implements MongoModelObject {
 	private int[] jobReasons;
 	private String comment;
 	private boolean feedbackProvided;
+	private UserType userType;
 	private OrderType orderType;
 	private Date createdAt;
+	private BigDecimal amountCharged;
+	private double commissionPercentage;
 	
 	public OrderData() { }
 	
-	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, OrderType orderType, Date createdAt){
+	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, UserType userType, OrderType orderType, Date createdAt){
 		this.tradesmen = tradesmen;
 		this.userId = userId;
 		this.professionId = professionId;
@@ -31,6 +39,7 @@ public class OrderData implements MongoModelObject {
 		this.jobReasons = jobReasons;
 		this.comment = comment;
 		this.feedbackProvided = feedbackProvided;
+		this.userType = userType;
 		this.orderType = orderType;
 		this.createdAt = createdAt;
 	}
@@ -100,6 +109,14 @@ public class OrderData implements MongoModelObject {
 	public void setFeedbackProvided(boolean feedbackProvided) {
 		this.feedbackProvided = feedbackProvided;
 	}
+	
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
 
 	public OrderType getOrderType() {
 		return orderType;
@@ -117,12 +134,42 @@ public class OrderData implements MongoModelObject {
 		this.createdAt = createdAt;
 	}
 
+	public BigDecimal getAmountCharged() {
+		return amountCharged;
+	}
+
+	public void setAmountCharged(BigDecimal amountCharged) {
+		this.amountCharged = amountCharged;
+	}
+
+	public double getCommissionPercentage() {
+		return commissionPercentage;
+	}
+
+	public void setCommissionPercentage(double commissionPercentage) {
+		this.commissionPercentage = commissionPercentage;
+	}
+	
+	@Transient
+	public boolean isOrderComplete() {
+		return amountCharged != null && amountCharged.signum() > 0 && commissionPercentage > 0;
+	}
+	
+	@Transient
+	public BigDecimal calculateEarnings() {
+		if(isOrderComplete()) {
+			return Formatter.percentage(amountCharged, commissionPercentage);
+		}
+		return BigDecimal.ZERO;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderData [_id=" + _id + ", tradesmen=" + Arrays.toString(tradesmen) + ", userId=" + userId
 				+ ", professionId=" + professionId + ", location=" + location + ", jobReasons="
 				+ Arrays.toString(jobReasons) + ", comment=" + comment + ", feedbackProvided=" + feedbackProvided
-				+ ", createdAt=" + createdAt + "]";
+				+ ", userType=" + userType + ", orderType=" + orderType + ", createdAt=" + createdAt
+				+ ", amountCharged=" + amountCharged + ", commissionPercentage=" + commissionPercentage + "]";
 	}
 
 }

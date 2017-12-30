@@ -7,7 +7,7 @@ import javax.persistence.Transient;
 import org.bson.types.ObjectId;
 import org.springframework.util.StringUtils;
 
-import com.fixit.core.dao.UserType;
+import com.fixit.core.data.UserType;
 
 public class User implements CommonUser {
 	
@@ -130,9 +130,9 @@ public class User implements CommonUser {
 
 	@Override
 	public String toString() {
-		return "User [_id=" + _id + ", name=" + name + ", email=" + email + ", telephone=" + telephone 
-				+ ", userAvatarUrl=" + avatarUrl + ", facebookId=" + facebookId + ", googleId="
-				+ googleId + "]";
+		return "User [_id=" + _id + ", name=" + name + ", email=" + email + ", telephone=" + telephone + ", avatarUrl="
+				+ avatarUrl + ", facebookId=" + facebookId + ", googleId=" + googleId + ", createdAt=" + createdAt
+				+ "]";
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.Date;
 
 import org.bson.types.ObjectId;
 
-import com.fixit.core.dao.UserType;
+import com.fixit.core.data.UserType;
 
 /**
  * @author 		Kostyantin
@@ -30,7 +30,7 @@ public class TempUser implements CommonUser {
 	public TempUser(String name, String email, String telephone) {
 		this.name = name;
 		this.email = email;
-		this.telephone = telephone;
+		this.telephone = telephone.replaceAll("\\s+","");
 		this.createdAt = new Date();
 	}
 	

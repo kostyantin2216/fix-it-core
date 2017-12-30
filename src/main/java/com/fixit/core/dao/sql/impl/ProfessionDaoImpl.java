@@ -10,15 +10,6 @@ import com.fixit.core.data.sql.Profession;
 @Repository("professionDao")
 public class ProfessionDaoImpl extends UpdateDateSqlDaoImpl<Profession, Integer> 
 		implements ProfessionDao {
-	
-	public final static String TABLE_NAME = "Profession";
-	
-	public final static String PROP_ID = "id";
-	public final static String PROP_NAME = "name";
-	public final static String PROP_DESCRIPTION = "description";
-	public final static String PROP_IMAGE_URL = "imageUrl";
-	public final static String PROP_IS_ACTIVE = "isActive";
-	public final static String PROP_UPDATED_AT = "updatedAt";
 
 	@Override
 	public List<Profession> getActiveProfessions() {
@@ -28,6 +19,15 @@ public class ProfessionDaoImpl extends UpdateDateSqlDaoImpl<Profession, Integer>
 	@Override
 	public Profession findByName(String name) {
 		return findOneByProperty(PROP_NAME, name);
+	}
+	
+	@Override
+	public String getNameForProfession(Integer professionId) {
+		Profession profession = findById(professionId);
+		if(profession != null) {
+			return profession.getName();
+		}
+		return "";
 	}
 	
 	@Override

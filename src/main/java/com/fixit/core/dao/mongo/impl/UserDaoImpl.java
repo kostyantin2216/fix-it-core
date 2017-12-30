@@ -1,6 +1,7 @@
 package com.fixit.core.dao.mongo.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +26,16 @@ public class UserDaoImpl extends MongoDaoImpl<User>
 	@Autowired
 	public UserDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
+	
+	@Override
+	public List<User> findByTelephone(String telephone) {
+		return findByProperty(PROP_TELEPHONE, telephone);
+	}
+	
+	@Override
+	public User findFirstWithTelephone(String telephone) {
+		return findOneByProperty(PROP_TELEPHONE, telephone);
 	}
 	
 	@Override

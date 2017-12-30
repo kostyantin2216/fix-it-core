@@ -1,13 +1,13 @@
 package com.fixit.core.data;
 
-import org.bson.types.ObjectId;
-
+import com.fixit.core.data.mongo.MapArea;
 import com.fixit.core.utils.Formatter;
 
 public class JobLocation {
 	
-	public static JobLocation create(Address address) {
+	public static JobLocation create(MapArea mapArea, Address address) {
         JobLocation jobLocation = new JobLocation();
+        jobLocation.setMapAreaId(mapArea.get_id().toHexString());
         jobLocation.setStreet(address.getThoroughfare());
         String streetNum = address.getSubThoroughfare();
         if(!Formatter.isInteger(streetNum)) {
@@ -38,14 +38,14 @@ public class JobLocation {
 	private int floorNum;
 	private double lat;
 	private double lng;
-	private ObjectId mapAreaId;
+	private String mapAreaId;
 	private String comment;
     private String googleAddress;
     
     public JobLocation() { }
 	
 	public JobLocation(String province, String city, String neighborhood, String street, String zipCode, int streetNum,
-			int apartmentNum, int floorNum, double lat, double lng, ObjectId mapAreaId, String comment, String googleAddress) {
+			int apartmentNum, int floorNum, double lat, double lng, String mapAreaId, String comment, String googleAddress) {
 		this.province = province;
 		this.city = city;
 		this.neighborhood = neighborhood;
@@ -141,11 +141,11 @@ public class JobLocation {
 		this.lng = lng;
 	}
 	
-	public ObjectId getMapAreaId() {
+	public String getMapAreaId() {
 		return mapAreaId;
 	}
 
-	public void setMapAreaId(ObjectId mapAreaId) {
+	public void setMapAreaId(String mapAreaId) {
 		this.mapAreaId = mapAreaId;
 	}
 

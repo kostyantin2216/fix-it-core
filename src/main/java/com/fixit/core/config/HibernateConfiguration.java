@@ -6,6 +6,7 @@ import java.util.Properties;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.reflections.Reflections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,17 +16,7 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import com.fixit.core.data.sql.DataType;
-import com.fixit.core.data.sql.JobReason;
-import com.fixit.core.data.sql.OrderMessage;
-import com.fixit.core.data.sql.Profession;
-import com.fixit.core.data.sql.RestClient;
-import com.fixit.core.data.sql.Review;
-import com.fixit.core.data.sql.ServerLog;
-import com.fixit.core.data.sql.StoredProperty;
-import com.fixit.core.data.sql.TradesmanLead;
-import com.fixit.core.data.sql.TradesmanStatistics;
-import com.fixit.core.data.sql.UserStatistics;
+import com.fixit.core.data.sql.SqlModelObject;
 import com.fixit.core.logging.FILog;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -55,19 +46,11 @@ public class HibernateConfiguration {
 	}
 	
 	private Class<?>[] annotatedClasses() {
-		return new Class<?>[] {
-			DataType.class,
-			JobReason.class,
-			OrderMessage.class,
-			Profession.class,
-			RestClient.class,
-			Review.class,
-			ServerLog.class,
-			StoredProperty.class,
-			TradesmanLead.class,
-			TradesmanStatistics.class,
-			UserStatistics.class
-		};
+		Reflections reflections = new Reflections("com.fixit.core.data.sql");
+		return reflections.getSubTypesOf(SqlModelObject.class)
+				.stream()
+				.filter(c -> !c.isInterface())
+				.toArray(Class[]::new);
 	}
 
 	private Properties hibernateProperties() {
@@ -75,6 +58,7 @@ public class HibernateConfiguration {
 		properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
 	    properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
 	    properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+	    properties.put("hibernate.globally_quoted_identifiers", environment.getRequiredProperty("hibernate.globally_quoted_identifiers"));
 		return properties;        
 	}
 	

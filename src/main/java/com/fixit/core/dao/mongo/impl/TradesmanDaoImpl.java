@@ -31,7 +31,7 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	}
 	
 	@Override
-	public List<Tradesman> getTradesmenForArea(MapArea area) {
+	public List<Tradesman> findTradesmenForArea(MapArea area) {
 		FindIterable<Document> result = mCollection.find(
 				all(PROP_WORKING_AREAS, Arrays.asList(area.get_id()))
 		);
@@ -40,7 +40,7 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 	}
 	
 	@Override
-	public List<Tradesman> getTradesmenForArea(int professionId, MapArea area) {
+	public List<Tradesman> findTradesmenForArea(int professionId, MapArea area) {
 		FindIterable<Document> result = mCollection.find(and(
 					in(PROP_WORKING_AREAS, Arrays.asList(area.get_id().toHexString())),
 					in(PROP_PROFESSIONS, professionId)
@@ -50,6 +50,12 @@ public class TradesmanDaoImpl extends MongoDaoImpl<Tradesman>
 		return convertToList(result.iterator());
 	}
 
+	@Override
+	public List<Tradesman> findTradesmenForProfession(int professionId) {
+		return convertToList(mCollection.find(in(PROP_PROFESSIONS, professionId))
+										.iterator());
+	}
+	
 	@Override
 	public String getTableName() {
 		return TABLE_NAME;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.fixit.core.dao;
+package com.fixit.core.data;
 
 /**
  * @author 		Kostyantin

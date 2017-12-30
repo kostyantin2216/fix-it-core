@@ -1,5 +1,6 @@
 package com.fixit.core.utils;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -10,8 +11,20 @@ import org.springframework.util.StringUtils;
 
 public class Formatter {
 	
-	private final static Pattern PATTERN_24_HOURS = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]");  
+	private final static Pattern PATTERN_24_HOURS = Pattern.compile("([01]?[0-9]|2[0-3]):[0-5][0-9]"); 
+	private final static Pattern PATTERN_SA_TELEPHONE = Pattern.compile(Constants.RGX_SA_TELEPHONE);
+	
 	public final static String FORMAT_REST_DATE = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+	
+	private final static BigDecimal ONE_HUNDRED = new BigDecimal(100);
+	
+	public static BigDecimal percentage(BigDecimal base, BigDecimal percent) {
+		return base.multiply(percent).divide(ONE_HUNDRED);
+	}
+	
+	public static BigDecimal percentage(BigDecimal base, double percent) {
+		return percentage(base, new BigDecimal(percent));
+	}
 
 	public static Date getStartOfDay(Date date) {
 		Calendar cal = Calendar.getInstance();
@@ -57,6 +70,16 @@ public class Formatter {
 		return sentence.substring(0, 1).toUpperCase() + sentence.substring(1);
 	}
 	
+	public static String normalizeTelephone(String telephone) {
+		if(telephone != null) {
+			telephone = telephone.replaceAll("\\s+","");
+			if(!telephone.isEmpty() && !telephone.startsWith("+")) {
+				telephone = "+" + telephone;
+			}
+		}
+		return telephone;
+	}
+	
 	public static float percent(float percent, float amount) {
 		return (amount * (percent / 100f));
 	}
@@ -96,6 +119,10 @@ public class Formatter {
 	public static boolean is24Hours(String time) {
 		return !StringUtils.isEmpty(time) && PATTERN_24_HOURS.matcher(time).matches();
 	}
+	
+	public static boolean isSaTelephone(String telephone) {
+		return true;// !StringUtils.isEmpty(telephone) && PATTERN_SA_TELEPHONE.matcher(telephone).matches();
+	}
 
 	public static String capitalize(String line) {
 		return Character.toUpperCase(line.charAt(0)) + line.substring(1).toLowerCase();
@@ -104,7 +131,35 @@ public class Formatter {
 	public static String deCapitalize(String line) {
 		return Character.toLowerCase(line.charAt(0)) + line.substring(1);
 	}
+	
+	public static Date timeFractionToDateTime(double hundredths) {
+        if(hundredths > 0) {
+            int hours = (int) Math.floor(hundredths);
+            int minutes = (int) ((hundredths - (long) hundredths) * 60);
 
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.MINUTE, minutes);
+            cal.set(Calendar.HOUR_OF_DAY, hours);
+            return cal.getTime();
+        }
+        return null;
+    }
+	
+	public static double dateTimeToTimeFraction(Date date) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		int hours = cal.get(Calendar.HOUR_OF_DAY);
+		int minutes = cal.get(Calendar.MINUTE);
+		int minutesInHundredths = timeToHundredths(minutes);
+		
+		return Double.parseDouble(hours + "." + (minutesInHundredths < 10 ? "0" : "") + minutesInHundredths);
+	}
+
+	/**
+	 * Does not work properly with values over 100
+	 * @param time 
+	 * @return minutes in hundredths
+	 */
 	public static int timeToHundredths(int time) {
 	    int hours;
 	    int minutes;
@@ -124,7 +179,15 @@ public class Formatter {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println("isNumeric");
+		System.out.println("4 = " + timeToHundredths(4));
+		System.out.println("60 = " + timeToHundredths(60));
+		System.out.println("84 = " + timeToHundredths(84));
+		System.out.println("24 = " + timeToHundredths(24));
+		System.out.println("120 = " + timeToHundredths(120));
+		System.out.println("1203 = " + timeToHundredths(1203));
+		
+		
+		/*System.out.println("isNumeric");
 		System.out.println("123 = " + isNumeric("123"));
 		System.out.println("-123 = " + isNumeric("-123"));
 		System.out.println("-12.3 = " + isNumeric("-12.3"));
@@ -144,6 +207,6 @@ public class Formatter {
 		System.out.println("1v3 = " + isInteger("1v3"));
 		System.out.println("(space) = " + isInteger(" "));
 		System.out.println(". = " + isInteger("."));
-		System.out.println("null = " + isInteger(null));
+		System.out.println("null = " + isInteger(null));*/
 	}
 }

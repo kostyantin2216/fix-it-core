@@ -13,6 +13,7 @@ import com.fixit.core.dao.sql.StoredPropertyDao;
 import com.fixit.core.data.sql.StoredProperty;
 import com.fixit.core.data.sql.StoredProperty.StoredPropertyPK;
 import com.fixit.core.general.PropertyGroup;
+import com.fixit.core.general.TypedProperty;
 import com.fixit.core.general.PropertyGroup.Group;
 
 /**
@@ -49,6 +50,56 @@ public class StoredPropertyDaoImpl extends SqlDaoImpl<StoredProperty, StoredProp
 	@Override
 	public StoredProperty find(String group, String key) {
 		return findById(new StoredPropertyPK(group, key));
+	}
+	
+	@Override
+	public TypedProperty findTyped(String group, String key) {
+		StoredProperty property = find(group, key);
+		if(property != null) {
+			return new TypedProperty(property);
+		}
+		return null;
+	}
+	
+	@Override
+	public TypedProperty findTyped(Group group, String key) {
+		return findTyped(group.name(), key);
+	}
+	
+	@Override
+	public boolean get(String group, String key, boolean defaultValue) {
+		StoredProperty property = find(group, key);
+		if(property != null) {
+			return new TypedProperty(property).getOrDefault(defaultValue);
+		}
+		return defaultValue;
+	}
+	
+	@Override
+	public double get(String group, String key, double defaultValue) {
+		StoredProperty property = find(group, key);
+		if(property != null) {
+			return new TypedProperty(property).getOrDefault(defaultValue);
+		}
+		return defaultValue;
+	}
+
+	@Override
+	public int get(String group, String key, int defaultValue) {
+		StoredProperty property = find(group, key);
+		if(property != null) {
+			return new TypedProperty(property).getOrDefault(defaultValue);
+		}
+		return defaultValue;
+	}
+	
+	@Override
+	public String get(String group, String key, String defaultValue) {
+		StoredProperty property = find(group, key);
+		if(property != null) {
+			return new TypedProperty(property).getOrDefault(defaultValue);
+		}
+		return defaultValue;
 	}
 	
 	@Override

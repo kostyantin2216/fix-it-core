@@ -20,7 +20,7 @@ import com.fixit.core.utils.Formatter;
  * @createdAt 	2016/12/21 21:40:20 GMT+2
  */
 @Entity
-@Table(name = "StoredProperty")
+@Table(name = "`StoredProperty`")
 @IdClass(StoredProperty.StoredPropertyPK.class)
 public class StoredProperty implements SqlModelObject<StoredProperty.StoredPropertyPK> {
 	
@@ -123,6 +123,7 @@ public class StoredProperty implements SqlModelObject<StoredProperty.StoredPrope
 		private static final long serialVersionUID = -4539230641532463574L;
 		
 		protected String group;
+		
 		protected String key;
 		
 		public StoredPropertyPK() { }
@@ -130,6 +131,14 @@ public class StoredProperty implements SqlModelObject<StoredProperty.StoredPrope
 		public StoredPropertyPK(String group, String key) {
 			this.group = group;
 			this.key = key;
+		}
+		
+		public String getGroup() {
+			return group;
+		}
+		
+		public String getKey() {
+			return key;
 		}
 
 		@Override

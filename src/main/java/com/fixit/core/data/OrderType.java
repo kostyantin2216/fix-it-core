@@ -8,6 +8,8 @@ package com.fixit.core.data;
  * @createdAt 	2017/11/11 00:24:43 GMT+2
  */
 public enum OrderType {
-	REGULAR,
-	QUICK;
+	SEARCH,
+	QUICK,
+	DIRECT,
+	CUSTOM;
 }

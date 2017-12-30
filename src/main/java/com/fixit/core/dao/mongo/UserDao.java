@@ -3,6 +3,7 @@
  */
 package com.fixit.core.dao.mongo;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +24,9 @@ public interface UserDao extends MongoDao<User> {
 	public final static String PROP_USER_AVATER_URL = "userAvatarUrl";
 	public final static String PROP_FACEBOOK_ID = "facebookId";
 	public final static String PROP_GOOGLE_ID = "googleId";
+	
+	List<User> findByTelephone(String telephone);
+	User findFirstWithTelephone(String telephone);
 	
 	Map<ObjectId, Map<String, String>> getDataForReviews(Set<ObjectId> forUsers);
 }

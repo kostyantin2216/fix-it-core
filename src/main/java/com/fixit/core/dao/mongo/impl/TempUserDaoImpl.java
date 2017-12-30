@@ -3,6 +3,8 @@
  */
 package com.fixit.core.dao.mongo.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,11 @@ public class TempUserDaoImpl extends MongoDaoImpl<TempUser> implements TempUserD
 	@Autowired
 	public TempUserDaoImpl(MongoClientManager mongoClientManager, GsonManager gsonManager) {
 		super(mongoClientManager.getCollection(TABLE_NAME), gsonManager.getMongoGson());
+	}
+	
+	@Override
+	public List<TempUser> findByTelephone(String telephone) {
+		return findByProperty(PROP_TELEPHONE, telephone);
 	}
 	
 	@Override

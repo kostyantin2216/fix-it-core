@@ -15,6 +15,7 @@ public interface CommonDao<E extends DataModelObject<ID>, ID extends Serializabl
 	E findById(ID id);
 	E findOneByProperty(String property, Object value);
 	E findOneByMap(Map<String, Object> properties);
+	List<E> findIn(String property, Object... values);
 	List<E> findByProperty(String property, Object value);
 	List<E> findByMap(Map<String, Object> properties);
 	List<E> findAll();

@@ -2,6 +2,8 @@ package com.fixit.core.dao.mongo.impl;
 
 import static com.mongodb.client.model.Filters.and;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.in;
+import static com.mongodb.client.model.Filters.regex;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -21,12 +24,13 @@ import com.fixit.core.dao.queries.DataResourceQuery;
 import com.fixit.core.dao.queries.MongoDataResourceQueryProcessor;
 import com.fixit.core.data.mongo.MongoModelObject;
 import com.fixit.core.exceptions.IllegalQueryPropertyException;
-import com.fixit.core.logging.FILog;
 import com.google.gson.Gson;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import com.mongodb.client.model.DeleteOneModel;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.WriteModel;
 
 @Scope("request")
 public abstract class MongoDaoImpl<E extends MongoModelObject> 
@@ -66,6 +70,17 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	}
 	
 	@Override
+	public void deleteMany(List<E> entities) {
+		List<WriteModel<Document>> writes = new ArrayList<WriteModel<Document>>();
+		
+		for(E entity : entities) {
+			writes.add(new DeleteOneModel<Document>(new Document(PROP_ID, entity.get_id())));
+		}
+		
+		mCollection.bulkWrite(writes);
+	}
+	
+	@Override
 	public List<E> find(Bson bsonFilter) {
 		return convertToList(mCollection.find(bsonFilter).iterator());
 	}
@@ -73,13 +88,9 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 	@Override
 	public E findById(ObjectId id) {
 		MongoCursor<Document> cursor = mCollection.find(new Document(PROP_ID, id)).iterator();
-		if(cursor != null) {
+		if(cursor != null && cursor.hasNext()) {
 			try {
-				if(cursor.hasNext()) {
-					String json = cursor.next().toJson();
-					FILog.i("found: " + json);
-					return mGson.fromJson(json, getEntityClass());
-				}
+				return convertToType(cursor.next());
 			} finally {
 				cursor.close();
 			}
@@ -110,6 +121,12 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 		}
 		return null;
 	}
+	
+	@Override
+	public List<E> findIn(String property, Object... values) {
+		FindIterable<Document> resultItr = mCollection.find(in(property, values));
+		return convertToList(resultItr.iterator());
+	}
 
 	@Override
 	public List<E> findByProperty(String property, Object value) {
@@ -126,6 +143,16 @@ public abstract class MongoDaoImpl<E extends MongoModelObject>
 		}
 		
 		return convertToList(mCollection.find(and(filters)).iterator());
+	}
+	
+	@Override
+	public List<E> findByStartingWith(String property, String value) {
+		Document query = new Document(property, value);
+
+		String pattern = "^" + Pattern.quote(query.getString(property)) + ".*";
+
+		FindIterable<Document> result = mCollection.find(regex(property, pattern, "i"));
+		return convertToList(result.iterator());
 	}
 
 	@Override

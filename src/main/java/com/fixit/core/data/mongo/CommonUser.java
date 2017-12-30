@@ -3,7 +3,7 @@
  */
 package com.fixit.core.data.mongo;
 
-import com.fixit.core.dao.UserType;
+import com.fixit.core.data.UserType;
 
 /**
  * @author 		Kostyantin

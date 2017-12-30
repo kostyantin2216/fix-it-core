@@ -3,6 +3,8 @@
  */
 package com.fixit.core.dao.mongo;
 
+import java.util.List;
+
 import com.fixit.core.data.mongo.TempUser;
 
 /**
@@ -16,5 +18,7 @@ public interface TempUserDao extends MongoDao<TempUser> {
 	public final static String PROP_EMAIL = "email";
 	public final static String PROP_TELEPHONE = "telephone";
 	public final static String PROP_CREATED_AT = "createdAt";
-
+	
+	public List<TempUser> findByTelephone(String telephone);
+	
 }

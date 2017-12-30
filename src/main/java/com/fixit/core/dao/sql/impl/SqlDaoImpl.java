@@ -14,6 +14,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.metadata.ClassMetadata;
+import org.hibernate.query.Query;
 import org.hibernate.type.Type;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,7 +51,11 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 	@Override
 	public void delete(ID id) {
 		Session session = getSession();
-		session.delete(session.get(getEntityClass(), id));
+		E entity = session.get(getEntityClass(), id);
+		if(entity == null) {
+			entity = session.find(getEntityClass(), id);
+		}
+		session.delete(entity);
 	}
 	
 	@Override
@@ -84,6 +89,13 @@ public abstract class SqlDaoImpl<E extends SqlModelObject<ID>, ID extends Serial
 			return l.get(0);
 		}
 		return null;
+	}
+	
+	@Override
+	public List<E> findIn(String property, Object... values) {
+		Query<E> query = getSession().createQuery("FROM " + entityClassName + " WHERE " + property + " IN (:values)", getEntityClass());
+		query.setParameterList("values", values);
+		return query.getResultList();
 	}
 
 	@Override

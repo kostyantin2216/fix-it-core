@@ -36,5 +36,6 @@ public class StoredProperties {
 	public final static String WEB_FEATURE_IMAGE = "feature.images";
 	
 	public final static String REST_PUBLIC_PATHS = "public.paths";
+	public final static String REST_CORS_PATHS = "cors.paths";
 	
 }

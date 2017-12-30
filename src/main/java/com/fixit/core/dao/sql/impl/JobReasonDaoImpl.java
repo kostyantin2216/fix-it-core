@@ -3,6 +3,8 @@
  */
 package com.fixit.core.dao.sql.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.fixit.core.dao.sql.JobReasonDao;
@@ -22,6 +24,11 @@ public class JobReasonDaoImpl extends UpdateDateSqlDaoImpl<JobReason, Integer> i
 	public final static String PROP_NAME = "name";
 	public final static String PROP_COMMENT = "comment";
 	public final static String PROP_UPDATED_AT = "updatedAt";
+	
+	@Override
+	public List<JobReason> findReasonsForProfession(Integer professionId) {
+		return findByProperty(PROP_PROFESSION_ID, professionId);
+	}
 
 	@Override
 	public String getTableName() {

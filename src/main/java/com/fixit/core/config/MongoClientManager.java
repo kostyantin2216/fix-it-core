@@ -2,7 +2,9 @@ package com.fixit.core.config;
 
 import javax.annotation.PreDestroy;
 
+import org.bson.BsonDocument;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.springframework.core.env.Environment;
 
 import com.fixit.core.logging.FILog;
@@ -25,6 +27,11 @@ public class MongoClientManager  {
 	
 	public MongoCollection<Document> getCollection(String name) {
 		return mDatabase.getCollection(name);
+	}
+	
+	public static void printBson(Bson bson) {
+		BsonDocument bsonDocument = bson.toBsonDocument(BsonDocument.class, MongoClient.getDefaultCodecRegistry());
+	    System.out.println(bsonDocument);
 	}
 	
 	@PreDestroy

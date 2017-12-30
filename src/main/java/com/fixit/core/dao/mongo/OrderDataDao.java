@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.bson.types.ObjectId;
 
+import com.fixit.core.data.UserType;
 import com.fixit.core.data.mongo.OrderData;
 
 /**
@@ -23,8 +24,15 @@ public interface OrderDataDao extends MongoDao<OrderData> {
 	public final static String PROP_JOB_REASONS = "jobReasons";
 	public final static String PROP_COMMENT = "comment";
 	public final static String PROP_FEEDBACK_PROVIDED = "feedbackProvided";
+	public final static String PROP_USER_TYPE = "userType";
+	public final static String PROP_ORDER_TYPE = "orderType";
 	public final static String PROP_CREATED_AT = "createdAt";
 	
+	public void updateUsersForOrders(List<OrderData> orders);
+	
 	public List<OrderData> getOrdersForUser(ObjectId userId);
+	public List<OrderData> getOrdersForUsersOfType(String[] userIds, UserType userType);
+	
+	public List<OrderData> getOrdersForTradesman(ObjectId tradesmanId);
 
 }

@@ -43,5 +43,30 @@ public class WorkingDay {
 	public String toString() {
 		return "WorkingDay [day=" + dayOfWeek + ", hours=" + Arrays.toString(hours) + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + dayOfWeek;
+		result = prime * result + Arrays.hashCode(hours);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WorkingDay other = (WorkingDay) obj;
+		if (dayOfWeek != other.dayOfWeek)
+			return false;
+		if (!Arrays.equals(hours, other.hours))
+			return false;
+		return true;
+	}
 	
 }

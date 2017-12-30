@@ -15,6 +15,10 @@ public class FILog {
 		log(tag, Level.INFO, msg, null, false);
 	}
 	
+	public static void w(String msg) {
+		log(null, Level.WARNING, msg, null, false);
+	}
+	
 	public static void w(String tag, String msg) {
 		log(tag, Level.WARNING, msg, null, false);
 	}
