@@ -24,6 +24,17 @@ public class Constants {
 	public final static String ARG_FEATURE_IMAGES = "featureImages";
 	public final static String ARG_PROFESSION = "profession";
 	public final static String ARG_ORDER_ID = "orderId";
+	public final static String ARG_TRADESMAN_ID = "tradesmanId";
+	public final static String ARG_TITLE = "title";
+	public final static String ARG_LABEL = "label";
+	
+	//Data types
+	public final static int DATA_TYPE_ORDER_REQUEST = 3;
+	public final static int DATA_TYPE_ORDER_DATA = 2;
+	public final static int DATA_TYPE_TRADESMAN = 1;
+	
+	//Traffic Sources
+	public final static int TRAFFIC_SRC_ANDROID_APP = 1;
 	
 	// Views
 	public final static String VIEW_TRADESMAN_REGISTRATION = "tradesman-registration";

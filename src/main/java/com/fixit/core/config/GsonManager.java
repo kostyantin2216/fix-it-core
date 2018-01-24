@@ -29,6 +29,7 @@ public class GsonManager {
 
 	private final Gson mMongoGson;
 	private final Gson mServerNotifierGson;
+	private final Gson mRestResourceGson;
 	
 	@Autowired
 	public GsonManager(StoredPropertyDao storedPropertyDao) {
@@ -45,7 +46,6 @@ public class GsonManager {
 						new FieldExclusionStrategyManager.Builder()
     					.add(Tradesman.class, 
     							TradesmanDao.PROP_PASSWORD, 
-    							TradesmanDao.PROP_SUBSCRIPTION_EXPIRY_TIME,
     							TradesmanDao.PROP_WORKING_DAYS,
     							TradesmanDao.PROP_WORKING_AREAS,
     							TradesmanDao.PROP_LOGO_URL,
@@ -60,6 +60,22 @@ public class GsonManager {
     							MapAreaDao.PROP_GEOMETRY)
     					.build())
 				.setPrettyPrinting()
+				.create();
+		mRestResourceGson = new GsonBuilder()
+				.setDateFormat(Formatter.FORMAT_REST_DATE)
+				.registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdatper())
+                .enableComplexMapKeySerialization()
+				.addSerializationExclusionStrategy(
+						new FieldExclusionStrategyManager.Builder()
+	    					.add(Tradesman.class, 
+	    							TradesmanDao.PROP_PASSWORD, 
+	    							TradesmanDao.PROP_LEAD_ID,
+	    							TradesmanDao.PROP_WORKING_AREAS,
+	    							TradesmanDao.PROP_ID_PROVIDED,
+	    							TradesmanDao.PROP_TRADE_CERTIFICATE_PROVIDED)
+	    					.add(OrderData.class, 
+	    							OrderDataDao.PROP_USER_ID)
+	    					.build())
 				.create();
 	}
 
@@ -84,21 +100,7 @@ public class GsonManager {
 	 * @return GsonBuilder for rest resource gson.
 	 */
 	public Gson getRestResourceGson() {
-		return new GsonBuilder()
-				.setDateFormat(Formatter.FORMAT_REST_DATE)
-				.registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdatper())
-                .enableComplexMapKeySerialization()
-				.addSerializationExclusionStrategy(
-						new FieldExclusionStrategyManager.Builder()
-	    					.add(Tradesman.class, 
-	    							TradesmanDao.PROP_PASSWORD, 
-	    							TradesmanDao.PROP_SUBSCRIPTION_EXPIRY_TIME,
-	    							TradesmanDao.PROP_LEAD_ID,
-	    							TradesmanDao.PROP_WORKING_AREAS)
-	    					.add(OrderData.class, 
-	    							OrderDataDao.PROP_USER_ID)
-	    					.build())
-				.create();
+		return mRestResourceGson;
 	}
 
 	

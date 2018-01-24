@@ -3,7 +3,6 @@ package com.fixit.core.data.mongo;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Date;
 
 import org.bson.types.ObjectId;
 
@@ -31,7 +30,8 @@ public class Tradesman implements MongoModelObject, Serializable {
 	private WorkingDay[] workingDays;
 	private boolean active;
 	private int priority;
-	private Date subscriptionExpiryTime;
+	private boolean idProvided;
+	private boolean tradeCertificateProvided;
 	
 	public Tradesman() { }
 
@@ -163,12 +163,20 @@ public class Tradesman implements MongoModelObject, Serializable {
 		this.priority = priority;
 	}
 
-	public Date getSubscriptionExpiryTime() {
-		return subscriptionExpiryTime;
+	public boolean isIdProvided() {
+		return idProvided;
 	}
 
-	public void setSubscriptionExpiryTime(Date subscriptionExpiryTime) {
-		this.subscriptionExpiryTime = subscriptionExpiryTime;
+	public void setIdProvided(boolean idProvided) {
+		this.idProvided = idProvided;
+	}
+
+	public boolean isTradeCertificateProvided() {
+		return tradeCertificateProvided;
+	}
+
+	public void setTradeCertificateProvided(boolean tradeCertificateProvided) {
+		this.tradeCertificateProvided = tradeCertificateProvided;
 	}
 
 	@Override
@@ -178,7 +186,8 @@ public class Tradesman implements MongoModelObject, Serializable {
 				+ telephone + ", password=" + password + ", logoUrl=" + logoUrl + ", featureImageUrl=" + featureImageUrl
 				+ ", rating=" + rating + ", lastKnownLocation=" + lastKnownLocation + ", workingAreas="
 				+ Arrays.toString(workingAreas) + ", workingDays=" + Arrays.toString(workingDays) + ", active=" + active
-				+ ", priority=" + priority + ", subscriptionExpiryTime=" + subscriptionExpiryTime + "]";
+				+ ", priority=" + priority + ", idProvided=" + idProvided + ", tradeCertificateProvided="
+				+ tradeCertificateProvided + "]";
 	}
 
 	@Override
@@ -191,14 +200,16 @@ public class Tradesman implements MongoModelObject, Serializable {
 		result = prime * result + ((contactName == null) ? 0 : contactName.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((featureImageUrl == null) ? 0 : featureImageUrl.hashCode());
+		result = prime * result + (idProvided ? 1231 : 1237);
+		result = prime * result + ((lastKnownLocation == null) ? 0 : lastKnownLocation.hashCode());
 		result = prime * result + (int) (leadId ^ (leadId >>> 32));
 		result = prime * result + ((logoUrl == null) ? 0 : logoUrl.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + priority;
 		result = prime * result + Arrays.hashCode(professions);
 		result = prime * result + Float.floatToIntBits(rating);
-		result = prime * result + ((subscriptionExpiryTime == null) ? 0 : subscriptionExpiryTime.hashCode());
 		result = prime * result + ((telephone == null) ? 0 : telephone.hashCode());
+		result = prime * result + (tradeCertificateProvided ? 1231 : 1237);
 		result = prime * result + Arrays.hashCode(workingAreas);
 		result = prime * result + Arrays.hashCode(workingDays);
 		return result;
@@ -240,6 +251,13 @@ public class Tradesman implements MongoModelObject, Serializable {
 				return false;
 		} else if (!featureImageUrl.equals(other.featureImageUrl))
 			return false;
+		if (idProvided != other.idProvided)
+			return false;
+		if (lastKnownLocation == null) {
+			if (other.lastKnownLocation != null)
+				return false;
+		} else if (!lastKnownLocation.equals(other.lastKnownLocation))
+			return false;
 		if (leadId != other.leadId)
 			return false;
 		if (logoUrl == null) {
@@ -258,15 +276,12 @@ public class Tradesman implements MongoModelObject, Serializable {
 			return false;
 		if (Float.floatToIntBits(rating) != Float.floatToIntBits(other.rating))
 			return false;
-		if (subscriptionExpiryTime == null) {
-			if (other.subscriptionExpiryTime != null)
-				return false;
-		} else if (!subscriptionExpiryTime.equals(other.subscriptionExpiryTime))
-			return false;
 		if (telephone == null) {
 			if (other.telephone != null)
 				return false;
 		} else if (!telephone.equals(other.telephone))
+			return false;
+		if (tradeCertificateProvided != other.tradeCertificateProvided)
 			return false;
 		if (!Arrays.equals(workingAreas, other.workingAreas))
 			return false;
@@ -274,7 +289,5 @@ public class Tradesman implements MongoModelObject, Serializable {
 			return false;
 		return true;
 	}
-	
-	
 	
 }

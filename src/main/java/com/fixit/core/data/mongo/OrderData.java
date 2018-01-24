@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.Transient;
 
 import org.bson.types.ObjectId;
+import org.springframework.util.StringUtils;
 
 import com.fixit.core.data.JobLocation;
 import com.fixit.core.data.OrderType;
@@ -28,10 +29,12 @@ public class OrderData implements MongoModelObject {
 	private Date createdAt;
 	private BigDecimal amountCharged;
 	private double commissionPercentage;
+	private int trafficSourceId;
+	private String cancelReason;
 	
 	public OrderData() { }
 	
-	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, UserType userType, OrderType orderType, Date createdAt){
+	public OrderData(ObjectId[] tradesmen, ObjectId userId, int professionId, JobLocation location, int[] jobReasons, String comment, boolean feedbackProvided, UserType userType, OrderType orderType, Date createdAt, int trafficSourceId){
 		this.tradesmen = tradesmen;
 		this.userId = userId;
 		this.professionId = professionId;
@@ -42,6 +45,7 @@ public class OrderData implements MongoModelObject {
 		this.userType = userType;
 		this.orderType = orderType;
 		this.createdAt = createdAt;
+		this.trafficSourceId = trafficSourceId;
 	}
 	
 	@Override
@@ -150,9 +154,30 @@ public class OrderData implements MongoModelObject {
 		this.commissionPercentage = commissionPercentage;
 	}
 	
+	public int getTrafficSourceId() {
+		return trafficSourceId;
+	}
+
+	public void setTrafficSourceId(int trafficSourceId) {
+		this.trafficSourceId = trafficSourceId;
+	}
+
+	public String getCancelReason() {
+		return cancelReason;
+	}
+
+	public void setCancelReason(String cancelReason) {
+		this.cancelReason = cancelReason;
+	}
+
 	@Transient
 	public boolean isOrderComplete() {
 		return amountCharged != null && amountCharged.signum() > 0 && commissionPercentage > 0;
+	}
+	
+	@Transient
+	public boolean isOrderCancelled() {
+		return !StringUtils.isEmpty(cancelReason);
 	}
 	
 	@Transient
@@ -169,7 +194,8 @@ public class OrderData implements MongoModelObject {
 				+ ", professionId=" + professionId + ", location=" + location + ", jobReasons="
 				+ Arrays.toString(jobReasons) + ", comment=" + comment + ", feedbackProvided=" + feedbackProvided
 				+ ", userType=" + userType + ", orderType=" + orderType + ", createdAt=" + createdAt
-				+ ", amountCharged=" + amountCharged + ", commissionPercentage=" + commissionPercentage + "]";
+				+ ", amountCharged=" + amountCharged + ", commissionPercentage=" + commissionPercentage
+				+ ", trafficSourceId=" + trafficSourceId + ", cancelReason=" + cancelReason + "]";
 	}
 
 }

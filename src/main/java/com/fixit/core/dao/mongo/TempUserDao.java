@@ -20,5 +20,7 @@ public interface TempUserDao extends MongoDao<TempUser> {
 	public final static String PROP_CREATED_AT = "createdAt";
 	
 	public List<TempUser> findByTelephone(String telephone);
+
+	public TempUser findFirstWithTelephone(String telephone);
 	
 }

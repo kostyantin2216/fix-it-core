@@ -31,6 +31,15 @@ public class TempUserDaoImpl extends MongoDaoImpl<TempUser> implements TempUserD
 	}
 	
 	@Override
+	public TempUser findFirstWithTelephone(String telephone) {
+		List<TempUser> users = findByTelephone(telephone);
+		if(users != null && users.size() > 0) {
+			return users.get(0);
+		}
+		return null;
+	}
+	
+	@Override
 	public String getTableName() {
 		return TABLE_NAME;
 	}
